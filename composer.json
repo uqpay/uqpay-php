@@ -10,5 +10,10 @@
     "require": {
         "particle/validator": "^2.3",
         "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "sdk\\": "src/"
+        }
     }
 }
