@@ -1,5 +1,5 @@
 <?php
-namespace sdk;
+namespace uqpay\payment\sdk;
 
 class core{
     function httpGet(){
