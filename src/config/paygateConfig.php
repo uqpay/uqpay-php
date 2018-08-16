@@ -1,6 +1,6 @@
 <?php
 
-namespace sdk\config;
+namespace uqpay\payment\sdk\config;
 require_once 'baseConfig.php';
 
 class paygateConfig extends baseConfig

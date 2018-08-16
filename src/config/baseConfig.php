@@ -1,6 +1,6 @@
 <?php
 
-namespace sdk\config;
+namespace uqpay\payment\sdk\config;
 require_once 'RSAconfig.php';
 class baseConfig
 {

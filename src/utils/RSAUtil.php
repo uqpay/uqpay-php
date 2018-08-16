@@ -1,5 +1,5 @@
 <?php
-namespace sdk\util;
+namespace uqpay\payment\sdk\util;
 class RSAUtil {
 
 //throws UqpayRSAException

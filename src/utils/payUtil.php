@@ -1,6 +1,6 @@
 <?php
 
-namespace sdk\util;
+namespace uqpay\payment\sdk\util;
 
 class payUtil
 {

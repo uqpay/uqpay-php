@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "sdk\\": "src/"
+            "uqpay\\payment\\sdk\\": "src/"
         }
     }
 }

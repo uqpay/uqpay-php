@@ -1,17 +1,17 @@
 <?php
 
-namespace sdk;
+namespace uqpay\payment\sdk;
 
-use sdk\config\merchantConfig;
-use sdk\config\paygateConfig;
-use sdk\config\cashierConfig;
+use uqpay\payment\sdk\config\merchantConfig;
+use uqpay\payment\sdk\config\paygateConfig;
+use uqpay\payment\sdk\config\cashierConfig;
 use Particle\Validator\Validator;
-use sdk\util\payUtil;
-use sdk\result\QRResult;
-use sdk\result\CardResult;
-use sdk\result\InAppResult;
-use sdk\result\RefundResult;
-use sdk\result\QueryResult;
+use uqpay\payment\sdk\util\payUtil;
+use uqpay\payment\sdk\result\QRResult;
+use uqpay\payment\sdk\result\CardResult;
+use uqpay\payment\sdk\result\InAppResult;
+use uqpay\payment\sdk\result\RefundResult;
+use uqpay\payment\sdk\result\QueryResult;
 
 include 'config/paygateConfig.php';
 include 'config/merchantConfig.php';
@@ -26,7 +26,7 @@ include 'utils/paymethod.php';
 include 'utils/constants.php';
 
 
-class sdk extends core
+class sdk extends request
 {
     private $paygateConfig;
     private $merchantConfig;
@@ -37,18 +37,7 @@ class sdk extends core
         $this->paygateConfig = new paygateConfig();
         $this->merchantConfig = new merchantConfig();
         $this->cashierConfig = new cashierConfig();
-//        $builder = new BuilderConfig();
-//        $builder->paygateConfig($paygateConfig);
-//        $builder->merchantConfig($merchantConfig);
-//        $this->home($builder);
     }
-
-
-//    function home($builder)
-//    {
-//        $this->paygateConfig = (object)array_merge((array)$this->paygateConfig, (array)$builder->paygateConfig);
-//        $this->merchantConfig = (object)array_merge((array)$this->merchantConfig, (array)$builder->merchantConfig);
-//    }
 
     function validatePayData($object, $msg = "pay data invalid for uqpay payment")
     {
@@ -73,7 +62,6 @@ class sdk extends core
         return $this->paygateConfig->apiRoot . $url;
     }
 
-//throws IOException, UqpayRSAException, UqpayResultVerifyException
     function QRCodePayment($pay)
     {
         global $UqpayScanType;
@@ -85,11 +73,9 @@ class sdk extends core
         $paramsMap = $payUtil->generateDefPayParams($pay, $this->merchantConfig);
         $paramsMap[PAY_OPTIONS_SCAN_TYPE] = (string)$pay["scantype"];
         $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY),$paramsMap);
-        dump($result);
         return new QRResult($this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY), $paramsMap));
     }
 
-//throws IOException, UqpayRSAException
     function OnlinePayment($pay)
     {
         $this->validatePayData($pay);
@@ -113,13 +99,10 @@ class sdk extends core
         return $paramsMap;
     }
 
-//throws IOException, UqpayRSAException, UqpayResultVerifyException
     function CreditCardPayment($creditCard, $payData)
     {
         return new CardResult($this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY), $this->generateCreditCardPayParams($creditCard, $payData)));
     }
-
-//throws IOException, UqpayRSAException
     function ThreeDSecurePayment($creditCard, $payData)
     {
         if ($payData["returnUrl"] == null || strcmp($payData["returnUrl"], "") == 0)
@@ -132,7 +115,6 @@ class sdk extends core
     }
 
 
-//throws IOException, UqpayRSAException, UqpayResultVerifyException
     function InAppPayment($payData)
     {
         if ($payData["client"] == null) throw new \Exception("client type is required for uqpay in-app payment");
@@ -145,7 +127,6 @@ class sdk extends core
         return new InAppResult($this->doServerSidePostPay($paramsMap));
     }
 
-//throws IOException, UqpayRSAException, UqpayResultVerifyException
     function Refund($refund) {
         $this->validatePayData($refund, "refund request data invalid for uqpay order operation");
         $payUtil = new payUtil();
@@ -153,8 +134,6 @@ class sdk extends core
         return new RefundResult($this->httpArrayPost($this->apiUrl(PAYGATE_API_REFUND),$paramsMap ));
     }
 
-
-//throws UqpayRSAException, IOException, UqpayResultVerifyException
     function Cancel($cancel)  {
         $this->validatePayData($cancel, "cancel payment request data invalid for uqpay order operation");
         $payUtil = new payUtil();
@@ -162,7 +141,6 @@ class sdk extends core
         return $this->httpArrayPost($this->apiUrl(PAYGATE_API_CANCEL),$paramsMap);
     }
 
-//throws UqpayRSAException, IOException, UqpayResultVerifyException
     function Query($query) {
         $this->validatePayData($query, "query request data invalid for uqpay order operation");
         $payUtil = new payUtil();

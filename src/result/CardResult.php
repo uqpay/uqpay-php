@@ -1,6 +1,6 @@
 <?php
 
-namespace sdk\result;
+namespace uqpay\payment\sdk\result;
 
 class CardResult
 {
