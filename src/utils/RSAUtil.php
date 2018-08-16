@@ -1,5 +1,5 @@
 <?php
-namespace util;
+namespace sdk\util;
 class RSAUtil {
 
 //throws UqpayRSAException

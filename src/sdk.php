@@ -2,16 +2,16 @@
 
 namespace sdk;
 
-use config\merchantConfig;
-use config\paygateConfig;
-use config\cashierConfig;
+use sdk\config\merchantConfig;
+use sdk\config\paygateConfig;
+use sdk\config\cashierConfig;
 use Particle\Validator\Validator;
-use util\payUtil;
-use result\QRResult;
-use result\CardResult;
-use result\InAppResult;
-use result\RefundResult;
-use result\QueryResult;
+use sdk\util\payUtil;
+use sdk\result\QRResult;
+use sdk\result\CardResult;
+use sdk\result\InAppResult;
+use sdk\result\RefundResult;
+use sdk\result\QueryResult;
 
 include 'config/paygateConfig.php';
 include 'config/merchantConfig.php';

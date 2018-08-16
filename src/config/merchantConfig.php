@@ -1,5 +1,5 @@
 <?php
-  namespace config;
+  namespace sdk\config;
 
   class merchantConfig{
       private $id;

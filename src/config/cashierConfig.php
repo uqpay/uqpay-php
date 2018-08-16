@@ -1,6 +1,6 @@
 <?php
-namespace config;
-use config\baseConfig;
+namespace sdk\config;
+use sdk\config\baseConfig;
 require_once 'baseConfig.php';
 class cashierConfig extends baseConfig{
     private $apiRoot = "https://cashier.uqpay.cn";

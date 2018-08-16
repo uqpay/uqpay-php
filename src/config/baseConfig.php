@@ -1,6 +1,6 @@
 <?php
 
-namespace config;
+namespace sdk\config;
 require_once 'RSAconfig.php';
 class baseConfig
 {

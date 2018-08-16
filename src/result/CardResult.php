@@ -1,6 +1,6 @@
 <?php
 
-namespace result;
+namespace sdk\result;
 
 class CardResult
 {

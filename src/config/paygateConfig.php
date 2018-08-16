@@ -1,6 +1,6 @@
 <?php
 
-namespace config;
+namespace sdk\config;
 require_once 'baseConfig.php';
 
 class paygateConfig extends baseConfig
