@@ -22,6 +22,8 @@ include 'result/CardResult.php';
 include 'result/InAppResult.php';
 include 'result/RefundResult.php';
 include 'result/QueryResult.php';
+include 'utils/paymethod.php';
+include 'utils/constants.php';
 
 
 class sdk extends core
