@@ -1,0 +1,13 @@
+{
+    "name": "tongjin/sdk",
+    "authors": [
+        {
+            "name": "tongjin",
+            "email": "tongjin@uqpay.com"
+        }
+    ],
+    "require": {
+        "particle/validator": "^2.3",
+        "php": ">=5.4"
+    }
+}
