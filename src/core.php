@@ -1,6 +1,5 @@
 <?php
-namespace core;
-use Whoops\Exception\ErrorException;
+namespace sdk;
 
 class core{
     public $assign=Array();
@@ -88,7 +87,7 @@ class core{
 
         if ($err) {
             echo "cURL Error #:" . $err;
-            throw new ErrorException("cURL Error #:" . $err);
+            throw new \Exception("cURL Error #:" . $err);
         } else {
             return $response;
         }

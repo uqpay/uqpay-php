@@ -1,10 +1,9 @@
 <?php
 
-namespace app;
+namespace sdk;
 
 use config\merchantConfig;
 use config\paygateConfig;
-use core\core;
 use Particle\Validator\Validator;
 use util\payUtil;
 use result\QRResult;
