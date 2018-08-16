@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitfecee06621af0d4396df96d85e22a68e
 {
     public static $prefixLengthsPsr4 = array (
+        'u' => 
+        array (
+            'uqpay\\payment\\sdk\\' => 18,
+        ),
         'P' => 
         array (
             'Particle\\Validator\\' => 19,
@@ -14,6 +18,10 @@ class ComposerStaticInitfecee06621af0d4396df96d85e22a68e
     );
 
     public static $prefixDirsPsr4 = array (
+        'uqpay\\payment\\sdk\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'Particle\\Validator\\' => 
         array (
             0 => __DIR__ . '/..' . '/particle/validator/src',

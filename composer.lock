@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "efb26e6a5b284fd3632e3e27561459d1",
+    "content-hash": "b40826944650de49c0e23fe5062b5bf8",
     "packages": [
         {
             "name": "particle/validator",
@@ -75,6 +75,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.4"
+    },
     "platform-dev": []
 }

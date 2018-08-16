@@ -1,6 +1,10 @@
 {
     "name": "uqpay/payment-sdk",
-    "version": "1.0.2",
+    "type": "library",
+    "description": "Uqpay payment SDK",
+    "keywords": ["uqpay", "payment"],
+    "homepage": "https://github.com/uqpaytechnology/php-server-sdk",
+    "license" : "MIT License",
     "authors": [
         {
             "name": "tongjin",
@@ -17,3 +21,4 @@
         }
     }
 }
+
