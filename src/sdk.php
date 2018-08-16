@@ -4,6 +4,7 @@ namespace sdk;
 
 use config\merchantConfig;
 use config\paygateConfig;
+use config\cashierConfig;
 use Particle\Validator\Validator;
 use util\payUtil;
 use result\QRResult;
@@ -14,6 +15,7 @@ use result\QueryResult;
 
 include 'config/paygateConfig.php';
 include 'config/merchantConfig.php';
+include 'config/cashierConfig.php';
 include 'utils/payUtil.php';
 include 'result/QRResult.php';
 include 'result/CardResult.php';
@@ -26,11 +28,13 @@ class sdk extends core
 {
     private $paygateConfig;
     private $merchantConfig;
+    private $cashierConfig;
 
     function __construct($paygateConfig = array(), $merchantConfig = array())
     {
         $this->paygateConfig = new paygateConfig();
         $this->merchantConfig = new merchantConfig();
+        $this->cashierConfig = new cashierConfig();
 //        $builder = new BuilderConfig();
 //        $builder->paygateConfig($paygateConfig);
 //        $builder->merchantConfig($merchantConfig);
