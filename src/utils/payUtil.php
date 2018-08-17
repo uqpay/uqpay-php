@@ -154,7 +154,7 @@ class payUtil
             }
         }
         ksort($needVerifyParams);
-        $paramsQuery = http_build_query($needVerifyParams);
+        $paramsQuery = urldecode(http_build_query($needVerifyParams));
         $RSAUtil = new RSAUtil;
         $verify = $RSAUtil->verify($paramsQuery, (string)$paramsMap[AUTH_SIGN], $config->rsaConfig->publicKeyPath);
         if (!(boolean)$verify) throw new \Exception("The payment result is invalid, be sure is from the UQPAY server", $paramsMap);
