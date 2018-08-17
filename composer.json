@@ -13,6 +13,7 @@
     ],
     "require": {
         "particle/validator": "^2.3",
+        "guzzlehttp/guzzle":"^6.3",
         "php": ">=5.4"
     },
     "autoload": {
@@ -21,4 +22,3 @@
         }
     }
 }
-
