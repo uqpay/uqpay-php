@@ -7,7 +7,7 @@ class httpRequest
     function httpArrayPost($url, $data)
     {
         $client = new Client();
-        $promise = $client->post($url, ["form_params" => $data]);
-        return (string)$promise->getBody();
+        $response = $client->post($url, ["form_params" => $data]);
+        return (string)$response->getBody();
     }
 }
