@@ -1,5 +1,5 @@
 <?php
-namespace uqpay\payment\sdk\util;
+namespace uqpay\payment\sdk\utils;
 class request{
     function httpArrayPost($url,$data){
         $curl = curl_init();

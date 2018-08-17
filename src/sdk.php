@@ -6,13 +6,13 @@ use uqpay\payment\sdk\config\merchantConfig;
 use uqpay\payment\sdk\config\paygateConfig;
 use uqpay\payment\sdk\config\cashierConfig;
 use Particle\Validator\Validator;
-use uqpay\payment\sdk\util\payUtil;
+use uqpay\payment\sdk\utils\payUtil;
 use uqpay\payment\sdk\result\QRResult;
 use uqpay\payment\sdk\result\CardResult;
 use uqpay\payment\sdk\result\InAppResult;
 use uqpay\payment\sdk\result\RefundResult;
 use uqpay\payment\sdk\result\QueryResult;
-use uqpay\payment\sdk\util\request;
+use uqpay\payment\sdk\utils\request;
 
 include 'config/paygateConfig.php';
 include 'config/merchantConfig.php';
