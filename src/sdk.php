@@ -12,6 +12,7 @@ use uqpay\payment\sdk\result\CardResult;
 use uqpay\payment\sdk\result\InAppResult;
 use uqpay\payment\sdk\result\RefundResult;
 use uqpay\payment\sdk\result\QueryResult;
+use uqpay\payment\sdk\util\request;
 
 include 'config/paygateConfig.php';
 include 'config/merchantConfig.php';
