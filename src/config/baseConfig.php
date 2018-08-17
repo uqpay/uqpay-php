@@ -10,8 +10,6 @@ class baseConfig
 
     public function getRSA()
     {
-        $this->productRSA = new RSAconfig();
-        $this->testRSA = new RSAconfig();
         if ($this->isTestMode()) {
             return $this->testRSA;
         }

@@ -7,7 +7,7 @@ class CardResult
     private $channelCode;
     private $channelMsg;
 
-    public function CardResult($mapResult)
+    function __construct($mapResult)
     {
         $mapResult=(array) $mapResult;
             $this->channelCode = (string)$mapResult[RESULT_CHANNEL_CODE];

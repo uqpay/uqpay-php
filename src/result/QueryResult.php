@@ -19,7 +19,7 @@ class QueryResult
     protected $extendInfo;
 
 
-    function QueryResult($mapResult)
+    function __construct($mapResult)
     {
         $this->code = (string)$mapResult[RESULT_CODE];
         $this->sign = (string)$mapResult[AUTH_SIGN];

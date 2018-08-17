@@ -3,7 +3,12 @@ namespace uqpay\payment\sdk\config;
 use uqpay\payment\sdk\config\baseConfig;
 require_once 'baseConfig.php';
 class cashierConfig extends baseConfig{
-    private $apiRoot = "https://cashier.uqpay.cn";
+    private $cashierApiRoot = "https://cashier.uqpay.cn";
+
+    function __construct($config)
+    {
+        $this->apiRoot=$config["apiRoot"];
+    }
 
     //set方法
     public function __set($name, $value){

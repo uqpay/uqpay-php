@@ -7,11 +7,12 @@ class paygateConfig extends baseConfig
 {
     private $apiRoot = "https://paygate.uqpay.com";
 
-    private $uqpayPublicKey;
+    private $rsaConfig;
 
-    public function main()
+    public function __construct($config)
     {
-        $this->uqpayPublicKey = new RSAconfig();
+        $this->apiRoot=$config["apiRoot"];
+        $this->rsaConfig = $config["rsaConfig"];
     }
 
 //set方法

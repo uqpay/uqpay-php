@@ -3,6 +3,11 @@
 
   class merchantConfig{
       private $id;
+      function __construct($config)
+      {
+          $this->id = $config["id"];
+      }
+
       //set方法
       public function __set($name, $value){
           $this->$name = $value;

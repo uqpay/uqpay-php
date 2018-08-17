@@ -16,9 +16,6 @@ use uqpay\payment\sdk\result\QueryResult;
 use uqpay\payment\sdk\utils\request;
 use uqpay\payment\sdk\utils\httpRequest;
 
-include 'config/paygateConfig.php';
-include 'config/merchantConfig.php';
-include 'config/cashierConfig.php';
 include 'utils/payUtil.php';
 include 'result/QRResult.php';
 include 'result/CardResult.php';
@@ -35,11 +32,11 @@ class sdk extends httpRequest
     private $merchantConfig;
     private $cashierConfig;
 
-    function __construct($paygateConfig = array(), $merchantConfig = array())
+    function __construct(paygateConfig $paygateConfig, merchantConfig $merchantConfig,cashierConfig $cashierConfig)
     {
-        $this->paygateConfig = new paygateConfig();
-        $this->merchantConfig = new merchantConfig();
-        $this->cashierConfig = new cashierConfig();
+        $this->paygateConfig = $paygateConfig;
+        $this->merchantConfig = $merchantConfig;
+        $this->cashierConfig = $cashierConfig;
     }
 
     function validatePayData($object, $msg = "pay data invalid for uqpay payment")
@@ -52,12 +49,17 @@ class sdk extends httpRequest
         return $violations->isValid();
     }
 
-    function doServerSidePostPay($paramsMap)
+    function doServerSidePost($url,$paramsMap)
     {
         $payUtil = new payUtil();
-        $resultMap = $this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY), $paramsMap);
+        $resultMap = $this->httpArrayPost($url, $paramsMap);
         $payUtil->verifyUqpayNotice($resultMap, $this->paygateConfig);
         return $resultMap;
+    }
+
+    function doServerSidePostPay($paramsMap)
+    {
+        return $this->doServerSidePost($this->apiUrl(PAYGATE_API_PAY),$paramsMap);
     }
 
     function apiUrl($url)
@@ -78,12 +80,8 @@ class sdk extends httpRequest
         ksort($paramsMap);
         $paramsMap["sign"] = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
         ksort($paramsMap);
-        $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY), $paramsMap);
-        $QRResult = (object)array_merge(array(
-            "scanType" => null,
-            "QRCodeUrl" => null,
-            "QRCode" => null
-        ), (array)$result);
+        $result = $this->doServerSidePostPay($paramsMap);
+        $QRResult = new QRResult($result);
         return $QRResult;
     }
 
@@ -114,9 +112,9 @@ class sdk extends httpRequest
 
     function CreditCardPayment($creditCard, $payData)
     {
-        $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_PAY), $this->generateCreditCardPayParams($creditCard, $payData));
+        $result = $this->doServerSidePost($this->apiUrl(PAYGATE_API_PAY), $this->generateCreditCardPayParams($creditCard, $payData));
 //        $cardResult = new CardResult($result);
-        return json_decode($result);
+        return $result;
     }
 
     function ThreeDSecurePayment($creditCard, $payData)
@@ -143,7 +141,7 @@ class sdk extends httpRequest
         ksort($paramsData);
         $paramsData["sign"] = $payUtil->signParams(http_build_query($paramsData), $this->paygateConfig);
         $result = $this->doServerSidePostPay($paramsMap);
-        return json_decode($result);
+        return $result;
     }
 
     function Refund($refund)
@@ -153,8 +151,8 @@ class sdk extends httpRequest
         $paramsMap = $payUtil->generateRefundParams($refund, $this->merchantConfig);
         ksort($paramsData);
         $paramsData["sign"] = $payUtil->signParams(http_build_query($paramsData), $this->paygateConfig);
-        $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_REFUND), $paramsMap);
-        return json_decode($result);
+        $result = $this->doServerSidePost($this->apiUrl(PAYGATE_API_REFUND), $paramsMap);
+        return $result;
     }
 
     function Cancel($cancel)
@@ -162,8 +160,8 @@ class sdk extends httpRequest
         $this->validatePayData($cancel, "cancel payment request data invalid for uqpay order operation");
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateCancelParams($cancel, $this->merchantConfig);
-        $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_CANCEL), $paramsMap);
-        return json_decode($result);
+        $result = $this->doServerSidePost($this->apiUrl(PAYGATE_API_CANCEL), $paramsMap);
+        return $result;
     }
 
     function Query($query)
@@ -171,8 +169,8 @@ class sdk extends httpRequest
         $this->validatePayData($query, "query request data invalid for uqpay order operation");
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateQueryParams($query, $this->merchantConfig);
-        $result = $this->httpArrayPost($this->apiUrl(PAYGATE_API_QUERY), $paramsMap);
-        return json_decode($result);
+        $result = $this->doServerSidePost($this->apiUrl(PAYGATE_API_QUERY), $paramsMap);
+        return $result;
     }
 
     //set方法

@@ -18,7 +18,7 @@ class RefundResult
     private $extendInfo;    //商户订单传入的Json编码的扩展信息
 
 
-    function RefundResult($mapResult)
+    function __construct($mapResult)
     {
         $this->code = (string)$mapResult[RESULT_CODE];
         $this->sign = (string)$mapResult[AUTH_SIGN];

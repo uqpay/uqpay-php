@@ -9,15 +9,21 @@ class RSAconfig
      * The pem file path of RSA Private Key
      * Tips: make sure you have the permission to read.
      */
-    private $privateKeyPath="1005004_prv.pem";
+    private $privateKeyPath;
 
     private $publicKeyStr;
 
-    private $publicKeyPath="UQPAY_pub.pem";
+    private $publicKeyPath;
 
     private $privateKey;
 
     private $publicKey;
+
+    function __construct($config)
+    {
+        $this->publicKeyPath=$config["publicKeyPath"];
+        $this->privateKeyPath=$config["privateKeyPath"];
+    }
 
     public function getPrivateKey()
     {

@@ -8,6 +8,6 @@ class httpRequest
     {
         $client = new Client();
         $response = $client->post($url, ["form_params" => $data]);
-        return (string)$response->getBody();
+        return json_decode((string)$response->getBody(),true);
     }
 }

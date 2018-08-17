@@ -6,9 +6,8 @@ class InAppResult
 {
     private $acceptCode;
 
-    public function InAppResult($mapResult)
+    function __construct($mapResult)
     {
-        $mapResult=(array) $mapResult;
         $this->acceptCode = (string)$mapResult[RESULT_ACCEPT_CODE];
     }
 }

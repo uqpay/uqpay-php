@@ -19,12 +19,11 @@ class QRResult
         return null;
     }
 
-    public function QRResult($mapResult)
+    function __construct($mapResult)
     {
-        $mapResult=(array) $mapResult;
         global $UqpayScanType;
         $this->scanType = $this->fromValue((string)($mapResult[PAY_OPTIONS_SCAN_TYPE]));
-        if ($this->scanType != null && strcmp($this->scanType, $UqpayScanType["Consumer"])) {
+        if ($this->scanType != null && strcmp($this->scanType, $UqpayScanType["Consumer"])==0) {
             $this->QRCodeUrl = (string)$mapResult[RESULT_QR_CODE_URL];
             $this->QRCode = (string)$mapResult[RESULT_QR_CODE_DATA];
         }

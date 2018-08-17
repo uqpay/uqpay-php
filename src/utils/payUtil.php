@@ -56,7 +56,7 @@ class payUtil
 
     function signParams($data, $config)
     {
-        $priKey = file_get_contents($config->getRSA()->privateKeyPath);
+        $priKey = file_get_contents($config->rsaConfig->privateKeyPath);
         //转换为openssl密钥，必须是没有经过pkcs8转换的私钥
         $res = openssl_get_privatekey($priKey);
         //调用openssl内置签名方法，生成签名$sign
@@ -153,9 +153,10 @@ class payUtil
                 $needVerifyParams[$k] = (string)$v;
             }
         }
+        ksort($needVerifyParams);
         $paramsQuery = http_build_query($needVerifyParams);
         $RSAUtil = new RSAUtil;
-        $verify = $RSAUtil->verify($paramsQuery, (string)$paramsMap[AUTH_SIGN], $config->getRSA()->publicKeyPath);
+        $verify = $RSAUtil->verify($paramsQuery, (string)$paramsMap[AUTH_SIGN], $config->rsaConfig->publicKeyPath);
         if (!(boolean)$verify) throw new \Exception("The payment result is invalid, be sure is from the UQPAY server", $paramsMap);
     }
 }
