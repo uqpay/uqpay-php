@@ -96,7 +96,7 @@ class sdk extends httpRequest
         $paramsMap = $payUtil->generateDefPayParams($pay, $this->merchantConfig);
         $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $pay["returnUrl"];
         ksort($paramsMap);
-        $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap["sign"] =$payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
         return $this->apiUrl(PAYGATE_API_PAY) . "?" . http_build_query($paramsMap);
     }
 
