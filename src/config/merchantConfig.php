@@ -7,7 +7,7 @@
       function __construct($config)
       {
           $this->id = $config["id"];
-          $this->agentId = $config["agentId"];
+//          $this->agentId = $config["agentId"];
       }
 
       //set方法

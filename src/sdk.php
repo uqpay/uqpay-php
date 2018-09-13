@@ -3,10 +3,6 @@
 namespace uqpay\payment\sdk;
 
 use uqpay\payment\sdk\dto\enroll\EnrollOrder;
-use uqpay\payment\sdk\dto\enroll\VerifyOrder;
-use uqpay\payment\sdk\dto\PaygateParams;
-use uqpay\payment\sdk\dto\PayOptions;
-use Particle\Validator\Rule\CreditCard;
 use uqpay\payment\sdk\config\merchantConfig;
 use uqpay\payment\sdk\config\paygateConfig;
 use uqpay\payment\sdk\config\cashierConfig;
@@ -15,14 +11,8 @@ use uqpay\payment\sdk\dto\common\BankCardCompatibleDTO;
 use uqpay\payment\sdk\dto\common\CreditCardDTO;
 use uqpay\payment\sdk\dto\pay\PayOrder;
 use uqpay\payment\sdk\dto\preAuth\PreAuthOrder;
-use uqpay\payment\sdk\utils\payMethod;
+use uqpay\payment\sdk\utils\payMethodObject;
 use uqpay\payment\sdk\utils\payUtil;
-use uqpay\payment\sdk\result\QRResult;
-use uqpay\payment\sdk\result\CardResult;
-use uqpay\payment\sdk\result\InAppResult;
-use uqpay\payment\sdk\result\RefundResult;
-use uqpay\payment\sdk\result\QueryResult;
-use uqpay\payment\sdk\utils\request;
 use uqpay\payment\sdk\utils\httpRequest;
 use uqpay\payment\sdk\dto\authDTO;
 use uqpay\payment\sdk\dto\common\BankCardDTO;
@@ -282,15 +272,17 @@ class sdk extends httpRequest
         }
     }
 
-    function pay1(PayOrder $order)
+    function pay1($order)
     {
         global $UqpayTradeType;
-        $order->tradeType = $UqpayTradeType->pay;
+        $order["tradeType"] = $UqpayTradeType["pay"];
         $this->validatePayData($order);
         global $payMethod;
-        $scenes = $payMethod[$order->methodId];
+        $scenes = $payMethod[$order["methodId"]];
         switch ($scenes) {
             case "QRCode":
+                global $UqpayScanType;
+                $order["scantype"] = $UqpayScanType["Consumer"];
                 return $this->QRCodePayment($order, $this->apiUrl(PAYGATE_API_PAY));
             case "RedirectPay":
                 return $this->RedirectPayment($order, $this->apiUrl(PAYGATE_API_PAY));
@@ -319,7 +311,7 @@ class sdk extends httpRequest
         global $UqpayTradeType;
         $order->tradeType = $UqpayTradeType->pay;
         $this->validatePayData($order);
-        $PayMethod = new payMethod();
+        $PayMethod = new payMethodObject();
         global $payMethod;
         $scenes = $payMethod[$order->methodId];
         $creditCardDTO = new CreditCardDTO();
