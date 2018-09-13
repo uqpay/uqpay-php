@@ -53,6 +53,9 @@ define("PAYGATE_API_PAY", "/pay");
 define("PAYGATE_API_REFUND", "/refund");
 define("PAYGATE_API_CANCEL", "/cancel");
 define("PAYGATE_API_QUERY", "/query");
+define("PAYGATE_API_PRE_AUTH","/preauth");
+define("PAYGATE_API_ENROLL","/enroll");
+define("PAYGATE_API_VERIFY","/verify");
 
 
 $paymentSupportClient = array(
