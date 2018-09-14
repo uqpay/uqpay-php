@@ -161,8 +161,6 @@ class sdk extends httpRequest
             throw new \Exception("uqpay 3D secure payment need sync notice url");
         $paramsData = $this->generateCreditCardPayParams($creditCard, $payData);
         return $this->redirectPost($url, $paramsData);
-
-//        return $this->apiUrl(PAYGATE_API_PAY) . "?" . http_build_query($paramsData);
     }
 
 
@@ -177,6 +175,7 @@ class sdk extends httpRequest
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateDefPayParams($payData, $this->merchantConfig);
         $paramsMap[PAY_OPTIONS_CLIENT_TYPE] = (string)$payData["client"];
+        $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $payData["returnUrl"];
         ksort($paramsData);
         $paramsData["sign"] = $payUtil->signParams(http_build_query($paramsData), $this->paygateConfig);
         $result = $this->doServerSidePost($url, $paramsMap);
@@ -268,7 +267,7 @@ class sdk extends httpRequest
         if ($name == 'pay') {
             $i = count($args);
             if (method_exists($this, $f = 'pay' . $i)) {
-                call_user_func_array(array($this, $f), $args);
+                return call_user_func_array(array($this, $f), $args);
             }
         }
     }
@@ -286,15 +285,20 @@ class sdk extends httpRequest
             case "QRCode":
                 $UqpayScanType = $payMethodObject->UqpayScanType;
                 $order["scantype"] = $UqpayScanType["Consumer"];
-                return $this->QRCodePayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                $result = $this->QRCodePayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                break;
             case "RedirectPay":
-                return $this->RedirectPayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                $result = $this->RedirectPayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                break;
             case "InApp":
-                return $this->InAppPayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                $result = $this->InAppPayment($order, $this->apiUrl(PAYGATE_API_PAY));
+                break;
             default:
-                return null;
+                $result = null;
         }
+        return $result;
     }
+
 
     /**
      * this pay api for moment just support the bank card payment
@@ -309,7 +313,7 @@ class sdk extends httpRequest
      * @throws IOException
      * throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException
      */
-    function pay2(PayOrder $order, BankCardDTO $bankCard)
+    function pay2($order, $bankCard)
     {
         $payMethodObject = new payMethod();
         $UqpayTradeType = $payMethodObject->UqpayTradeType;

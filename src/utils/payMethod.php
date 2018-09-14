@@ -8,9 +8,9 @@ class payMethod
     public $UnionPayQR = 1001;
     public $AlipayQR = 1002;
     public $WeChatQR = 1003;
-    public $WeChatH5 = 1102;
+    public $Wechat_WebBased_InApp = 1102;
     public $UnionPayOnline = 1100;
-    public $UnionMerchantHost = 1101;
+    public $Union_Merchant_Host = 1101;
     public $VISA = 1200;
     public $VISA3D = 1250;
     public $Master = 1201;
@@ -22,12 +22,11 @@ class payMethod
     public $Alipay = 1301;
     public $AlipayWap = 1501;
     public $Wechat_InAPP = 2000;
-    public $UnionPay_InAPP = 2002;
+    public $UnionPay_InAPP = 2001;
+    public $UnionPay_Online_InAPP = 2002;
     public $ApplePay = 3000;
 
     public $scenesEnum = array(
-        "Global" => "Global", //全局
-        "Unknown" => "Unknown", //未知
         "RedirectPay" => "RedirectPay",//在线支付（跳转）
         "DirectPay" => "DirectPay",//在线支付（直接返回结果）
         "MerchantHost" => "MerchantHost",//存在验证环节的支付，如银联鉴权支付
@@ -73,8 +72,9 @@ class payMethod
             $this->UnionPay => $this->scenesEnum["QRCode"],
             $this->AlipayQR => $this->scenesEnum["QRCode"],
             $this->WeChatQR => $this->scenesEnum["QRCode"],
-            $this->WeChatH5 => $this->scenesEnum["RedirectPay"],
+            $this->Wechat_WebBased_InApp => $this->scenesEnum["RedirectPay"],
             $this->UnionPayOnline => $this->scenesEnum["RedirectPay"],
+            $this->Union_Merchant_Host=>$this->scenesEnum["MerchantHost"],
             $this->VISA => $this->scenesEnum["CreditCard"],
             $this->VISA3D => $this->scenesEnum["ThreeDCreditCard"],
             $this->Master => $this->scenesEnum["CreditCard"],
@@ -87,6 +87,7 @@ class payMethod
             $this->AlipayWap => $this->scenesEnum["RedirectPay"],
             $this->Wechat_InAPP => $this->scenesEnum["InApp"],
             $this->UnionPay_InAPP => $this->scenesEnum["InApp"],
+            $this->UnionPay_Online_InAPP=>$this->scenesEnum["InApp"],
             $this->ApplePay => $this->scenesEnum["RedirectPay"]
         );
         return $payMethod;
