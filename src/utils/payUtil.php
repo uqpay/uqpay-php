@@ -13,6 +13,7 @@ class payUtil
         $paramsMap[ORDER_CURRENCY] = $payData["currency"];
         $paramsMap[ORDER_TRANS_NAME] = $payData["transName"];
         $paramsMap[ORDER_DATE] = (string)$payData["date"];
+        $paramsMap[PAY_OPTIONS_CLIENT_TYPE] = (string)$payData["client"];
         if ($payData["quantity"] != 0) {
             $paramsMap[ORDER_QUANTITY] = (string)$payData["quantity"];
         }
@@ -40,6 +41,7 @@ class payUtil
         $paramsMap = array();
         $paramsMap[CREDIT_CARD_FIRST_NAME] = $creditCard["firstName"];
         $paramsMap[CREDIT_CARD_LAST_NAME] = $creditCard["lastName"];
+        $paramsMap["cardType"] = $creditCard["cardType"];
         $paramsMap[CREDIT_CARD_CARD_NUM] = $creditCard["cardNum"];
         $paramsMap[CREDIT_CARD_CVV] = $creditCard["cvv"];
         $paramsMap[CREDIT_CARD_EXPIRE_MONTH] = $creditCard["expireMonth"];

@@ -1,22 +1,9 @@
 <?php
 
 namespace uqpay\payment\sdk\utils;
-$scenesEnum = array(
-    "Global"=>"Global", //全局
-  "Unknown"=>"Unknown", //未知
-  "RedirectPay"=>"RedirectPay",//在线支付（跳转）
-  "DirectPay"=>"DirectPay",//在线支付（直接返回结果）
-  "MerchantHost"=>"MerchantHost",//存在验证环节的支付，如银联鉴权支付
-  "EmbedPay"=>"EmbedPay",//嵌入方式支付
-    "QRCode" => "QRCode",
-    "CreditCard" => "CreditCard",
-    "ThreeDCreditCard" => "ThreeDCreditCard",
-    "InApp" => "InApp"
-);
 
 
-
-class payMethodObject
+class payMethod
 {
     public $UnionPayQR = 1001;
     public $AlipayQR = 1002;
@@ -37,35 +24,71 @@ class payMethodObject
     public $Wechat_InAPP = 2000;
     public $UnionPay_InAPP = 2002;
     public $ApplePay = 3000;
+
+    public $scenesEnum = array(
+        "Global" => "Global", //全局
+        "Unknown" => "Unknown", //未知
+        "RedirectPay" => "RedirectPay",//在线支付（跳转）
+        "DirectPay" => "DirectPay",//在线支付（直接返回结果）
+        "MerchantHost" => "MerchantHost",//存在验证环节的支付，如银联鉴权支付
+        "EmbedPay" => "EmbedPay",//嵌入方式支付
+        "QRCode" => "QRCode",
+        "CreditCard" => "CreditCard",
+        "ThreeDCreditCard" => "ThreeDCreditCard",
+        "InApp" => "InApp"
+    );
+
+    public $UqpayScanType = array(
+        "Merchant" => 0,//merchant
+        "Consumer" => 1,//Consumer
+    );
+
+    public $BankCardType = array(
+        "Debit" => 1,//借记卡
+        "Credit" => 2,//信用卡
+    );
+    public $paymentSupportClient = array(
+        "PC_WEB" => 1,
+        "IOS" => 2,
+        "Android" => 3,
+    );
+
+    public $UqpayTradeType = array(
+        "pay" => 101,
+        "cancel" => 102,
+        "refund" => 103,
+        "preauth" => 104,
+        "preauthcomplete" => 105,
+        "preauthcancel" => 106,
+        "preauthcc" => 107,
+        "verifycode" => 130,
+        "enroll" => 131,
+        "withdraw" => 140,
+        "query" => 180
+    );
+
+    function payMethod()
+    {
+        $payMethod = array(
+            $this->UnionPay => $this->scenesEnum["QRCode"],
+            $this->AlipayQR => $this->scenesEnum["QRCode"],
+            $this->WeChatQR => $this->scenesEnum["QRCode"],
+            $this->WeChatH5 => $this->scenesEnum["RedirectPay"],
+            $this->UnionPayOnline => $this->scenesEnum["RedirectPay"],
+            $this->VISA => $this->scenesEnum["CreditCard"],
+            $this->VISA3D => $this->scenesEnum["ThreeDCreditCard"],
+            $this->Master => $this->scenesEnum["CreditCard"],
+            $this->Master3D => $this->scenesEnum["ThreeDCreditCard"],
+            $this->UnionPay => $this->scenesEnum["CreditCard"],
+            $this->AMEX => $this->scenesEnum["CreditCard"],
+            $this->JCB => $this->scenesEnum["CreditCard"],
+            $this->PayPal => $this->scenesEnum["CreditCard"],
+            $this->Alipay => $this->scenesEnum["RedirectPay"],
+            $this->AlipayWap => $this->scenesEnum["RedirectPay"],
+            $this->Wechat_InAPP => $this->scenesEnum["InApp"],
+            $this->UnionPay_InAPP => $this->scenesEnum["InApp"],
+            $this->ApplePay => $this->scenesEnum["RedirectPay"]
+        );
+        return $payMethod;
+    }
 }
-$payMethodList = new payMethodObject();
-$payMethod = array(
-    $payMethodList->UnionPay => $scenesEnum["QRCode"],
-    $payMethodList->AlipayQR => $scenesEnum["QRCode"],
-    $payMethodList->WeChatQR => $scenesEnum["QRCode"],
-    $payMethodList->WeChatH5 => $scenesEnum["RedirectPay"],
-    $payMethodList->UnionPayOnline => $scenesEnum["RedirectPay"],
-    $payMethodList->VISA => $scenesEnum["CreditCard"],
-    $payMethodList->VISA3D => $scenesEnum["ThreeDCreditCard"],
-    $payMethodList->Master => $scenesEnum["CreditCard"],
-    $payMethodList->Master3D => $scenesEnum["ThreeDCreditCard"],
-    $payMethodList->UnionPay => $scenesEnum["CreditCard"],
-    $payMethodList->AMEX => $scenesEnum["CreditCard"],
-    $payMethodList->JCB => $scenesEnum["CreditCard"],
-    $payMethodList->PayPal => $scenesEnum["CreditCard"],
-    $payMethodList->Alipay => $scenesEnum["RedirectPay"],
-    $payMethodList->AlipayWap => $scenesEnum["RedirectPay"],
-    $payMethodList->Wechat_InAPP => $scenesEnum["InApp"],
-    $payMethodList->UnionPay_InAPP => $scenesEnum["InApp"],
-    $payMethodList->ApplePay => $scenesEnum["RedirectPay"]
-);
-
-$UqpayScanType = array(
-    "Merchant" => 0,//merchant
-    "Consumer" => 1,//Consumer
-);
-
-$BankCardType = array(
-    "Debit" => 1,//借记卡
-    "Credit" => 2,//信用卡
-);

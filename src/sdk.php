@@ -11,7 +11,7 @@ use uqpay\payment\sdk\dto\common\BankCardCompatibleDTO;
 use uqpay\payment\sdk\dto\common\CreditCardDTO;
 use uqpay\payment\sdk\dto\pay\PayOrder;
 use uqpay\payment\sdk\dto\preAuth\PreAuthOrder;
-use uqpay\payment\sdk\utils\payMethodObject;
+use uqpay\payment\sdk\utils\payMethod;
 use uqpay\payment\sdk\utils\payUtil;
 use uqpay\payment\sdk\utils\httpRequest;
 use uqpay\payment\sdk\dto\authDTO;
@@ -23,7 +23,6 @@ include 'result/CardResult.php';
 include 'result/InAppResult.php';
 include 'result/RefundResult.php';
 include 'result/QueryResult.php';
-include 'utils/payMethod.php';
 include 'utils/constants.php';
 
 
@@ -87,27 +86,27 @@ class sdk extends httpRequest
 
     private function QRCodePayment($pay,$url)
     {
-        global $UqpayScanType;
+        $payMethod = new payMethod();
+        $UqpayScanType = $payMethod->UqpayScanType;
         $this->validatePayData($pay);
         if ($pay["scantype"] == null) throw new \Exception("uqpay qr code payment need Scan Type");
         if (strcmp($pay["scantype"], $UqpayScanType["Merchant"]) == 0 && $pay["identity"] == null) throw new \Exception("uqpay qr code payment need the identity data when scan type is merchant");
         $payUtil = new payUtil();
-
         $paramsMap = $payUtil->generateDefPayParams($pay, $this->merchantConfig);
         $paramsMap[PAY_OPTIONS_SCAN_TYPE] = (string)$pay["scantype"];
         $result = $this->doServerSidePost($url,$paramsMap);
-//        $QRResult = new QRResult($result);
         return $result;
     }
 
 
     private function RedirectPayment($payOptions, $url)
     {
-        if ($payOptions->returnUrl == null || $payOptions->returnUrl == "") {
+        if ($payOptions["returnUrl"] == null || $payOptions["returnUrl"] == "") {
             throw new \Exception("uqpay online payment need sync notice url");
         }
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateDefPayParams($payOptions, $this->merchantConfig);
+        $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $payOptions["returnUrl"];
         return $this->redirectPost($url, $paramsMap);
     }
 
@@ -138,7 +137,8 @@ class sdk extends httpRequest
 
     private function MerchantHostPayment($pay,$bankCard, $url)
     {
-        global $BankCardType;
+        $payMethod = new payMethod();
+        $BankCardType = $payMethod->BankCardType;
         if ($bankCard->cardType == $BankCardType["Credit"]) {
             if ($bankCard->expireMonth == null || strcmp($bankCard->expireMonth, "") == 0 || $bankCard->expireYear == null || strcmp($bankCard->expireYear, "") == 0) {
                 throw new \Exception("uqpay merchant host payment if the card type is credit, the expire date info is required");
@@ -170,7 +170,8 @@ class sdk extends httpRequest
     function InAppPayment($payData, $url)
     {
         if ($payData["client"] == null) throw new \Exception("client type is required for uqpay in-app payment");
-        global $paymentSupportClient;
+        $payMethod = new payMethod();
+        $paymentSupportClient = $payMethod->paymentSupportClient;
         if (strcmp($payData["client"], $paymentSupportClient["PC_WEB"]) == 0) throw new \Exception("uqpay in-app payment not support pc client");
         $this->validatePayData($payData);
         $payUtil = new payUtil();
@@ -274,14 +275,16 @@ class sdk extends httpRequest
 
     function pay1($order)
     {
-        global $UqpayTradeType;
+
+        $payMethodObject = new payMethod();
+        $UqpayTradeType = $payMethodObject->UqpayTradeType;
         $order["tradeType"] = $UqpayTradeType["pay"];
         $this->validatePayData($order);
-        global $payMethod;
+        $payMethod = $payMethodObject->payMethod();
         $scenes = $payMethod[$order["methodId"]];
         switch ($scenes) {
             case "QRCode":
-                global $UqpayScanType;
+                $UqpayScanType = $payMethodObject->UqpayScanType;
                 $order["scantype"] = $UqpayScanType["Consumer"];
                 return $this->QRCodePayment($order, $this->apiUrl(PAYGATE_API_PAY));
             case "RedirectPay":
@@ -308,21 +311,23 @@ class sdk extends httpRequest
      */
     function pay2(PayOrder $order, BankCardDTO $bankCard)
     {
-        global $UqpayTradeType;
+        $payMethodObject = new payMethod();
+        $UqpayTradeType = $payMethodObject->UqpayTradeType;
+        $order["tradeType"] = $UqpayTradeType["pay"];
+        $this->validatePayData($order);
+        $payMethod = $payMethodObject->payMethod();
         $order->tradeType = $UqpayTradeType->pay;
         $this->validatePayData($order);
-        $PayMethod = new payMethodObject();
-        global $payMethod;
         $scenes = $payMethod[$order->methodId];
         $creditCardDTO = new CreditCardDTO();
         $bankCardCompatibleDTO = new BankCardCompatibleDTO();
         switch ($scenes) {
             case "CreditCard":
                 switch ($order->methodId) {
-                    case $PayMethod->AMEX:
-                    case $PayMethod->JCB:
-                    case $PayMethod->Master:
-                    case $PayMethod->VISA:
+                    case $payMethodObject->AMEX:
+                    case $payMethodObject->JCB:
+                    case $payMethodObject->Master:
+                    case $payMethodObject->VISA:
                         $this->validatePayData($bankCard);
                         break;
                     default:
@@ -361,8 +366,9 @@ class sdk extends httpRequest
         $bankCardCompatibleDTO = new BankCardCompatibleDTO();
         switch ($order->tradeType) {
             case "preauth":
-                global $payMethod;
-                $scenes = $payMethod[$order->methodId];
+                $payMethodObject = new payMethod();
+                $payMethod = $payMethodObject->payMethod();
+                $scenes = $payMethod[$order["methodId"]];
                 switch ($scenes) {
                     case "InApp":
                         return $this->InAppPayment($order, $this->apiUrl(PAYGATE_API_PRE_AUTH));
