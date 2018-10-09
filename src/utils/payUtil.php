@@ -9,7 +9,7 @@ class payUtil
         $paramsMap = array();
         $paramsMap[AUTH_MERCHANT_ID] = (string)$config->id;
         $paramsMap[ORDER_ID] = $payData["orderId"];
-        $paramsMap[ORDER_AMOUNT] = (string)$payData["amount"];
+        $paramsMap[ORDER_AMOUNT] = (double)$payData["amount"];
         $paramsMap[ORDER_CURRENCY] = $payData["currency"];
         $paramsMap[ORDER_TRANS_NAME] = $payData["transName"];
         $paramsMap[ORDER_DATE] = (string)$payData["date"];

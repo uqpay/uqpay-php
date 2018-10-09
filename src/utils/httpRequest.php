@@ -9,11 +9,23 @@ class httpRequest
 {
     function httpArrayPost($url, $data)
     {
-        $client = new Client();
+        $client = new Client(["verify"=>false]);
         $response = $client->post($url, ["form_params" => $data]);
         $code = $response->getStatusCode();
         if($code>=200&&$code<300){
             return json_decode((string)$response->getBody(),true);
+        }
+        $result = json_decode((string)$response->getBody(),true);
+        $baseResult = new BaseResult($result);
+        throw new UqpayPayFailException($baseResult->code,$baseResult->message);
+    }
+
+    function httpRedirectArrayPost($url, $data){
+        $client = new Client(["verify"=>false]);
+        $response = $client->post($url, ["form_params" => $data]);
+        $code = $response->getStatusCode();
+        if($code>=200&&$code<300){
+            return (string) $response->getBody();
         }
         $result = json_decode((string)$response->getBody(),true);
         $baseResult = new BaseResult($result);

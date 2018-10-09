@@ -70,7 +70,7 @@ class sdk extends httpRequest
         ksort($paramsMap);
         $paramsMap["sign"] = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
         ksort($paramsMap);
-        $resultMap = $this->httpArrayPost($url, $paramsMap);
+        $resultMap = $this->httpRedirectArrayPost($url, $paramsMap);
         return $resultMap;
     }
 
