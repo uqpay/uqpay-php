@@ -8,6 +8,7 @@ use uqpay\payment\sdk\config\paygateConfig;
 use uqpay\payment\sdk\config\cashierConfig;
 use Particle\Validator\Validator;
 use uqpay\payment\sdk\dto\common\BankCardCompatibleDTO;
+use uqpay\payment\sdk\dto\common\BankCardHostBaseDTO;
 use uqpay\payment\sdk\dto\common\CreditCardDTO;
 use uqpay\payment\sdk\dto\pay\PayOrder;
 use uqpay\payment\sdk\dto\preAuth\PreAuthOrder;
@@ -16,6 +17,7 @@ use uqpay\payment\sdk\utils\payUtil;
 use uqpay\payment\sdk\utils\httpRequest;
 use uqpay\payment\sdk\dto\authDTO;
 use uqpay\payment\sdk\dto\common\BankCardDTO;
+use uqpay\payment\sdk\dto\enroll\VerifyOrder;
 
 include 'utils/payUtil.php';
 include 'result/QRResult.php';
@@ -84,7 +86,7 @@ class sdk extends httpRequest
         return $this->paygateConfig->apiRoot . $url;
     }
 
-    private function QRCodePayment($pay,$url)
+    private function QRCodePayment($pay, $url)
     {
         $payMethod = new payMethod();
         $UqpayScanType = $payMethod->UqpayScanType;
@@ -94,7 +96,7 @@ class sdk extends httpRequest
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateDefPayParams($pay, $this->merchantConfig);
         $paramsMap[PAY_OPTIONS_SCAN_TYPE] = (string)$pay["scantype"];
-        $result = $this->doServerSidePost($url,$paramsMap);
+        $result = $this->doServerSidePost($url, $paramsMap);
         return $result;
     }
 
@@ -135,15 +137,14 @@ class sdk extends httpRequest
         return $paramsMap;
     }
 
-    private function MerchantHostPayment($pay,$bankCard, $url)
+    private function MerchantHostPayment($pay, $bankCard, $url)
     {
-        $payMethod = new payMethod();
-        $BankCardType = $payMethod->BankCardType;
-        if ($bankCard->cardType == $BankCardType["Credit"]) {
-            if ($bankCard->expireMonth == null || strcmp($bankCard->expireMonth, "") == 0 || $bankCard->expireYear == null || strcmp($bankCard->expireYear, "") == 0) {
-                throw new \Exception("uqpay merchant host payment if the card type is credit, the expire date info is required");
-            }
-        }
+        $paramsMap = $this->generateCreditCardPayParams($bankCard, $pay);
+        return $this->doServerSidePost($url, $paramsMap);
+    }
+
+    private function ServerHostPayment($pay, $bankCard, $url)
+    {
         $paramsMap = $this->generateCreditCardPayParams($bankCard, $pay);
         return $this->doServerSidePost($url, $paramsMap);
     }
@@ -193,7 +194,7 @@ class sdk extends httpRequest
         return $this->doServerSidePost($this->apiUrl(PAYGATE_API_PRE_AUTH), $paramsMap);
     }
 
-    private function EnrollCard(EnrollOrder $order)
+    private function EnrollCard(EnrollOrder $order, BankCardDTO $bankCardDTO)
     {
         $paramsMap = array();
         $paramsMap["orderId"] = $order->orderId;
@@ -203,14 +204,10 @@ class sdk extends httpRequest
         return $this->doServerSidePost($this->apiUrl(PAYGATE_API_ENROLL), $paramsMap);
     }
 
-    private function VerifyPhone(VerifyOrderr $order)
+    private function VerifyPhone(VerifyOrder $order)
     {
-        $paramsMap = array();
-        $paramsMap["orderId"] = $order->orderId;
-        $paramsMap["date"] = $order->date;
-        $paramsMap["verifyCode"] = $order->verifyCode;
-        $paramsMap["codeOrderId"] = $order->codeOrderId;
-        return $this->doServerSidePost($this->apiUrl(PAYGATE_API_VERIFY), $paramsMap);
+        $order->tradeType = UqpayTradeType["verifycode"];
+        return $this->doServerSidePost($this->apiUrl(PAYGATE_API_VERIFY), $order);
     }
 
     private
@@ -313,7 +310,7 @@ class sdk extends httpRequest
      * @throws IOException
      * throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException
      */
-    function pay2($order, $bankCard)
+    function pay2($order, BankCardDTO $bankCard)
     {
         $payMethodObject = new payMethod();
         $UqpayTradeType = $payMethodObject->UqpayTradeType;
@@ -325,6 +322,7 @@ class sdk extends httpRequest
         $scenes = $payMethod[$order->methodId];
         $creditCardDTO = new CreditCardDTO();
         $bankCardCompatibleDTO = new BankCardCompatibleDTO();
+        $bankCardHostBaseDTO = new BankCardHostBaseDTO();
         switch ($scenes) {
             case "CreditCard":
                 switch ($order->methodId) {
@@ -343,6 +341,9 @@ class sdk extends httpRequest
                 return $this->ThreeDSecurePayment($order, $bankCard, $this->apiUrl(PAYGATE_API_PAY));
             case "MerchantHost":
                 return $this->MerchantHostPayment($order, $bankCardCompatibleDTO->valueOf($bankCard), $this->apiUrl(PAYGATE_API_PAY));
+            case "ServerHost":
+                $hostBaseDTO = $bankCardHostBaseDTO->valueOf($bankCard);
+                return $this->ServerHostPayment($order, $hostBaseDTO, $this->apiUrl(PAYGATE_API_PAY));
             default:
                 return null;
         }
@@ -394,6 +395,35 @@ class sdk extends httpRequest
             default:
                 return null;
         }
+    }
+
+
+
+    //===========================================
+    // Enroll API
+    //===========================================
+
+    function enroll(EnrollOrder $order, BankCardDTO $bankCardDTO)
+    {
+        $order->tradeType = UqpayTradeType["enroll"];
+
+        $payMethodObject = new payMethod();
+        $payMethod = $payMethodObject->payMethod();
+        $scenes = $payMethod[$order["methodId"]];
+        switch ($scenes) {
+            case "MerchantHost":
+                return $this->EnrollCard($order, $bankCardDTO);
+            case "ServerHost":
+                return $this->EnrollCard($order, $bankCardDTO);
+            default:
+                return null;
+        }
+    }
+
+    function verify(VerifyOrder $order)
+    {
+        $order->tradeType = UqpayTradeType["verifycode"];
+        return $this->VerifyPhone($order);
     }
 
 

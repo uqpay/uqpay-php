@@ -56,6 +56,7 @@ define("PAYGATE_API_QUERY", "/query");
 define("PAYGATE_API_PRE_AUTH","/preauth");
 define("PAYGATE_API_ENROLL","/enroll");
 define("PAYGATE_API_VERIFY","/verify");
+define("SERVER_HOST_CARD_TOKEN","token");
 
 
 $paymentSupportClient = array(

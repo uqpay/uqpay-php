@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="041144eb-319e-4cdc-b117-f983e591456f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/dto/common/BankCardHostBaseDTO.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sdk.php" afterPath="$PROJECT_DIR$/src/sdk.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/httpRequest.php" afterPath="$PROJECT_DIR$/src/utils/httpRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/payUtil.php" afterPath="$PROJECT_DIR$/src/utils/payUtil.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/constants.php" afterPath="$PROJECT_DIR$/src/utils/constants.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/payMethod.php" afterPath="$PROJECT_DIR$/src/utils/payMethod.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sdk.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sdk.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sdk.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="94" column="43" lean-forward="true" selection-start-line="94" selection-start-column="43" selection-end-line="94" selection-end-column="43" />
+            <state relative-caret-position="184">
+              <caret line="319" column="22" lean-forward="false" selection-start-line="319" selection-start-column="22" selection-end-line="319" selection-end-column="22" />
               <folding>
                 <element signature="e#37#82#0#PHP" expanded="true" />
               </folding>
@@ -31,78 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="httpRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/httpRequest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="15" column="66" lean-forward="false" selection-start-line="15" selection-start-column="66" selection-end-line="15" selection-end-column="66" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderDTO.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/common/OrderDTO.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="8" column="15" lean-forward="true" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BankCardCompatibleDTO.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="payUtil.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/utils/payUtil.php">
+      <file leaf-file-name="VerifyOrder.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/enroll/VerifyOrder.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="297">
-              <caret line="11" column="62" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="11" selection-end-column="62" />
-              <folding>
-                <element signature="e#2606#2996#0#PHP" expanded="false" />
-                <element signature="e#3002#3657#0#PHP" expanded="false" />
-                <element signature="e#3663#4182#0#PHP" expanded="false" />
-                <element signature="e#4188#4537#0#PHP" expanded="false" />
-                <element signature="e#4600#6184#0#PHP" expanded="false" />
-                <element signature="e#6275#7071#0#PHP" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BankCardDTO.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardDTO.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AuthDTO.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/common/AuthDTO.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="constants.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/constants.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="64" selection-end-column="2" />
+              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,11 +52,78 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="OrderDTO.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/common/OrderDTO.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="6" column="5" lean-forward="true" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BankCardCompatibleDTO.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="14" column="43" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BankCardHostBaseDTO.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardHostBaseDTO.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BankCardDTO.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardDTO.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="9" column="15" lean-forward="true" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="payUtil.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/payUtil.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="85" column="32" lean-forward="false" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="32" />
+              <folding>
+                <element signature="e#2606#2996#0#PHP" expanded="false" />
+                <element signature="e#3002#3657#0#PHP" expanded="false" />
+                <element signature="e#3663#4182#0#PHP" expanded="false" />
+                <element signature="e#4188#4537#0#PHP" expanded="false" />
+                <element signature="e#4600#6184#0#PHP" expanded="false" />
+                <element signature="e#6275#7071#0#PHP" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="constants.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/constants.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1374">
+              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="payMethod.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/payMethod.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1674">
-              <caret line="62" column="28" lean-forward="false" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
+            <state relative-caret-position="355">
+              <caret line="90" column="63" lean-forward="true" selection-start-line="90" selection-start-column="63" selection-end-line="90" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -132,15 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>assign</find>
-      <find>paygateConfig</find>
-      <find>sess</find>
-      <find>aip</find>
-      <find>sign</find>
-      <find>QRC</find>
-      <find>for</find>
-      <find>signParams</find>
-      <find>ErrorException</find>
       <find>ErrorE</find>
       <find>$payUtil</find>
       <find>doServerSidePostPay</find>
@@ -162,6 +154,15 @@
       <find>global</find>
       <find>cardtype</find>
       <find>redirectPost</find>
+      <find>RedirectPayment</find>
+      <find>AuthDTO</find>
+      <find>merchantHo</find>
+      <find>VerifyOrderr</find>
+      <find>VerifyOrder</find>
+      <find>enroll</find>
+      <find>verify</find>
+      <find>preAuth</find>
+      <find>PayMethod</find>
     </findStrings>
     <dirStrings>
       <dir>C:\wamp\www\javaer</dir>
@@ -175,7 +176,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/core/core.php" />
         <option value="$PROJECT_DIR$/result/QRResult.php" />
         <option value="$PROJECT_DIR$/app/view/templates/demo/paygate.html" />
         <option value="$PROJECT_DIR$/rsa_private_key.pem" />
@@ -209,23 +209,24 @@
         <option value="$PROJECT_DIR$/src/dto/common/CreditCardDTO.php" />
         <option value="$PROJECT_DIR$/src/dto/pay/PayOrder.php" />
         <option value="$PROJECT_DIR$/src/dto/preAuth/PreAuthOrder.php" />
-        <option value="$PROJECT_DIR$/src/utils/constants.php" />
         <option value="$PROJECT_DIR$/src/dto/PayGate.php" />
         <option value="$PROJECT_DIR$/src/exception/UqpayFailException.php" />
         <option value="$PROJECT_DIR$/src/result/BaseResult.php" />
         <option value="$PROJECT_DIR$/src/dto/enroll/VerifyOrder.php" />
         <option value="$PROJECT_DIR$/src/dto/enroll/EnrollOrder.php" />
         <option value="$PROJECT_DIR$/src/dto/PayOptions.php" />
-        <option value="$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php" />
         <option value="$PROJECT_DIR$/src/config/merchantConfig.php" />
         <option value="$PROJECT_DIR$/src/utils/uqpayTradeType.php" />
         <option value="$PROJECT_DIR$/src/utils/bankCardType.php" />
-        <option value="$PROJECT_DIR$/src/utils/payMethod.php" />
         <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/src/sdk.php" />
         <option value="$PROJECT_DIR$/src/utils/httpRequest.php" />
         <option value="$PROJECT_DIR$/src/dto/common/OrderDTO.php" />
         <option value="$PROJECT_DIR$/src/utils/payUtil.php" />
+        <option value="$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php" />
+        <option value="$PROJECT_DIR$/src/utils/constants.php" />
+        <option value="$PROJECT_DIR$/src/utils/payMethod.php" />
+        <option value="$PROJECT_DIR$/src/dto/common/BankCardHostBaseDTO.php" />
+        <option value="$PROJECT_DIR$/src/sdk.php" />
       </list>
     </option>
   </component>
@@ -245,6 +246,7 @@
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -261,6 +263,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -286,11 +289,37 @@
               <item name="dto" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="common" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="sdk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdk" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="dto" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="enroll" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="sdk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdk" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="dto" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="pay" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="sdk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdk" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="dto" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="preAuth" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="sdk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdk" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="utils" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
@@ -398,12 +427,15 @@
       <workItem from="1536721012446" duration="45216000" />
       <workItem from="1536914035171" duration="613000" />
       <workItem from="1537241351327" duration="4315000" />
-      <workItem from="1539078388995" duration="262000" />
+      <workItem from="1539078388995" duration="850000" />
+      <workItem from="1539079246807" duration="786000" />
+      <workItem from="1541988831251" duration="5000" />
+      <workItem from="1542788413145" duration="3121000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185269000" />
+    <option name="totallyTimeSpent" value="189769000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -418,14 +450,14 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12686567" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2468017" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38084874" sideWeight="0.5021322" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33188248" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23612623" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -450,8 +482,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rsa_public_key.pem" />
-    <entry file="file://$PROJECT_DIR$/rsa_private_key.pem" />
     <entry file="file://$PROJECT_DIR$/app/Builder.php" />
     <entry file="file://$PROJECT_DIR$/UQPAY_pub.pem" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/openssl/openssl.php" />
@@ -475,13 +505,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/request.php" />
-    <entry file="file://$PROJECT_DIR$/composer.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/config/RSAconfig.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -489,18 +512,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="17" column="6" lean-forward="true" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dto/PaygateParams.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -529,7 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="28" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -617,13 +631,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/enroll/VerifyOrder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dto/enroll/EnrollOrder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -645,40 +652,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/PaygateParams.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="25" lean-forward="false" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/uqpayTradeType.php" />
-    <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardDTO.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dto/common/AuthDTO.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/bankCardType.php" />
-    <entry file="file://$PROJECT_DIR$/src/utils/constants.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="64" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/config/merchantConfig.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -686,26 +668,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/payMethod.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="62" column="28" lean-forward="false" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -717,28 +683,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/common/OrderDTO.php">
+    <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" column="15" lean-forward="true" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sdk.php">
+    <entry file="file://$PROJECT_DIR$/composer.lock">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="94" column="43" lean-forward="true" selection-start-line="94" selection-start-column="43" selection-end-line="94" selection-end-column="43" />
-          <folding>
-            <element signature="e#37#82#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="729">
+          <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="56" lean-forward="false" selection-start-line="5" selection-start-column="56" selection-end-line="5" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/constants.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1374">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/payMethod.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="90" column="63" lean-forward="true" selection-start-line="90" selection-start-column="63" selection-end-line="90" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardDTO.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="15" lean-forward="true" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/payUtil.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="62" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="11" selection-end-column="62" />
+        <state relative-caret-position="207">
+          <caret line="85" column="32" lean-forward="false" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="32" />
           <folding>
             <element signature="e#2606#2996#0#PHP" expanded="false" />
             <element signature="e#3002#3657#0#PHP" expanded="false" />
@@ -746,6 +742,56 @@
             <element signature="e#4188#4537#0#PHP" expanded="false" />
             <element signature="e#4600#6184#0#PHP" expanded="false" />
             <element signature="e#6275#7071#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/PaygateParams.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="25" lean-forward="false" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/enroll/VerifyOrder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/common/OrderDTO.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="5" lean-forward="true" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardCompatibleDTO.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="14" column="43" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/common/BankCardHostBaseDTO.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sdk.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="319" column="22" lean-forward="false" selection-start-line="319" selection-start-column="22" selection-end-line="319" selection-end-column="22" />
+          <folding>
+            <element signature="e#37#82#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
