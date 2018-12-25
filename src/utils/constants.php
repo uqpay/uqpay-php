@@ -1,19 +1,19 @@
 <?php
 
-define("AUTH_SIGN","sign");
-define("AUTH_MERCHANT_ID","merchantid");
-define("PAY_OPTIONS_TRADE_TYPE","tradetype");
-define("PAY_OPTIONS_METHOD_ID","methodid");
+define("AUTH_SIGN", "sign");
+define("AUTH_MERCHANT_ID", "merchantid");
+define("PAY_OPTIONS_TRADE_TYPE", "tradetype");
+define("PAY_OPTIONS_METHOD_ID", "methodid");
 
-define("PAY_OPTIONS_SCAN_TYPE","scantype");
-define("PAY_OPTIONS_ASYNC_NOTICE_URL","callbackurl");
-define("PAY_OPTIONS_SYNC_NOTICE_URL","returnurl");
-define("PAY_OPTIONS_CLIENT_TYPE","clienttype");
+define("PAY_OPTIONS_SCAN_TYPE", "scantype");
+define("PAY_OPTIONS_ASYNC_NOTICE_URL", "callbackurl");
+define("PAY_OPTIONS_SYNC_NOTICE_URL", "returnurl");
+define("PAY_OPTIONS_CLIENT_TYPE", "clienttype");
 
-define("ORDER_ID","orderid");
-define("ORDER_AMOUNT","amount");
+define("ORDER_ID", "orderid");
+define("ORDER_AMOUNT", "amount");
 define("ORDER_CURRENCY", "currency");
-define("ORDER_TRANS_NAME","transname");
+define("ORDER_TRANS_NAME", "transname");
 define("ORDER_DATE", "date");
 define("ORDER_QUANTITY", "quantity");
 define("ORDER_STORE_ID", "storeid");
@@ -53,14 +53,21 @@ define("PAYGATE_API_PAY", "/pay");
 define("PAYGATE_API_REFUND", "/refund");
 define("PAYGATE_API_CANCEL", "/cancel");
 define("PAYGATE_API_QUERY", "/query");
-define("PAYGATE_API_PRE_AUTH","/preauth");
-define("PAYGATE_API_ENROLL","/enroll");
-define("PAYGATE_API_VERIFY","/verify");
-define("SERVER_HOST_CARD_TOKEN","token");
+define("PAYGATE_API_PRE_AUTH", "/preauth");
+define("PAYGATE_API_ENROLL", "/enroll");
+define("PAYGATE_API_VERIFY", "/verify");
+define("SERVER_HOST_CARD_TOKEN", "token");
+
+define("APPGATE_API_REGISTER", "/register");
+
+define("APPGATE_API_EMVCO_CREATE", "/emvco/create");
+define("APPGATE_API_EMVCO_QUERY", "/emvco/query");
+define("APPGATE_API_EMVCO_PAYLOAD", "/emvco/payload");
+define("APPGATE_API_RES_EXCHANGE_RATE", "/res/exchange");
 
 
 $paymentSupportClient = array(
     "PC_WEB" => 1,
-    "IOS"=>2,
-    "Android"=>3,
+    "IOS" => 2,
+    "Android" => 3,
 );

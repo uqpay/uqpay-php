@@ -1,6 +1,6 @@
 <?php
 
-namespace uqpay\payment\sdk\result;
+namespace uqpay\payment\sdk\dto\result;
 
 use uqpay\payment\sdk\dto\PaygateParams;
 
@@ -8,6 +8,12 @@ class BaseResult implements PaygateParams
 {
     private $code;
     private $message;
+    private $sign;
+    private $merchantId;
+    private $agentId;
+    private $methodId;
+    private $tradeType;
+    private $date;
 
     function __construct($mapResult)
     {

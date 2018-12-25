@@ -1,6 +1,6 @@
 <?php
 namespace uqpay\payment\sdk\dto\common;
-
+use Particle\Validator\Validator;
 
 class PayOptionsDTO implements PaygateParams, PayOptions {
   /**
@@ -25,6 +25,21 @@ class PayOptionsDTO implements PaygateParams, PayOptions {
   private $channelInfo;
   private $extendInfo;
 
+
+
+    public function __construct()
+    {
+        $this->validated();
+    }
+
+    protected function validated(){
+
+        $validator = new Validator;
+        $validator->required('methodId')->integer();
+        $validator->required('callbackUrl')->string();
+        $validator->required('client')->string();
+        $validator->required('tradeType')->string();
+    }
    //set方法
     public function __set($name, $value)
 {

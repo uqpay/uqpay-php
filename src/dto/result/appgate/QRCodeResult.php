@@ -1,18 +1,15 @@
 <?php
+namespace uqpay\payment\sdk\dto\result\appgate;
 
-namespace uqpay\payment\sdk\config;
-require_once 'baseConfig.php';
+class QRCodeResult extends BaseAppgateResult {
+  private $codeId;
+  private $type;
+  private $name;
+  private $payload;
+  private $terminalId;
+  private $content; // QR Code Content
 
-class paygateConfig extends baseConfig
-{
-    private $apiRoot = "https://paygate.uqpay.com";
-
-    public function __construct($config)
-    {
-        $this->apiRoot=$config["apiRoot"];
-    }
-
-//set方法
+    //set方法
     public function __set($name, $value)
     {
         $this->$name = $value;

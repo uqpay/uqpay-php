@@ -1,15 +1,9 @@
 <?php
 
-namespace uqpay\payment\sdk\result;
+namespace uqpay\payment\sdk\dto\result;
 
-class QueryResult
+class QueryResult extends BaseResult
 {
-    protected $sign;
-    protected $merchantId;
-    protected $tradeType;
-    protected $code;
-    protected $message;
-    protected $date;
     protected $orderId;
     protected $uqOrderId;
     protected $relatedId; // 关联的订单ID，当发生退款、撤销时，对应订单

@@ -65,7 +65,8 @@ class payUtil
         openssl_sign(urldecode($data), $sign, $res);
         openssl_free_key($res);
         $sign = base64_encode($sign);
-        return $sign;
+        $data['sign']=$sign;
+        return $data;
     }
 
     function generateRefundParams($refund, $config)

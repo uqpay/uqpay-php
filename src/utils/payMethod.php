@@ -36,8 +36,12 @@ class payMethod
         "CreditCard" => "CreditCard",
         "ThreeDCreditCard" => "ThreeDCreditCard",
         "InApp" => "InApp",
-        "OnlinePay"=>"OnlinePay", // 104
-        "ServerHost"=>"ServerHost"// 111
+        "OnlinePay" => "OnlinePay", // 104
+        "ServerHost" => "ServerHost"// 111
+    );
+    public $SignTypeEnum = array(
+        "RSA" => 1,
+        "MD5" => 2,
     );
 
     public $UqpayScanType = array(
@@ -55,6 +59,13 @@ class payMethod
         "Android" => 3,
     );
 
+    public $QRCodeChannelTypeEnum = array(
+        "UnionPay" => 1,
+    );
+    public $QRCodeTypeEnum = array(
+        "Static" => 11,
+        "Dynamic" => 12,
+    );
     public $UqpayTradeType = array(
         "pay" => 101,
         "cancel" => 102,
@@ -72,26 +83,26 @@ class payMethod
     function payMethod()
     {
         $payMethod = array(
-            $this->UnionPayQR=>$this->scenesEnum["QRCode"],
-            $this->AlipayQR=>$this->scenesEnum["QRCode"],
-            $this->WeChatQR=>$this->scenesEnum["QRCode"],
-            $this->WechatWebBasedInApp=> $this->scenesEnum["RedirectPay"],
-            $this->UnionSecurePay=> $this->scenesEnum["RedirectPay"],
-            $this->VISA=> $this->scenesEnum["CreditCard"],
-            $this->VISA3D=>$this->scenesEnum["ThreeDCreditCard"],
-            $this->Master=> $this->scenesEnum["CreditCard"],
-            $this->Master3D=>$this->scenesEnum["ThreeDCreditCard"],
-            $this->UnionPayExpressPay=> $this->scenesEnum["CreditCard"],
-            $this->AMEX=> $this->scenesEnum["CreditCard"],
-            $this->JCB=> $this->scenesEnum["CreditCard"],
-            $this->PayPal=> $this->scenesEnum["CreditCard"],
-            $this->Alipay=> $this->scenesEnum["RedirectPay"],
-            $this->AlipayWap=> $this->scenesEnum["RedirectPay"],
-            $this->Wechat_InAPP=> $this->scenesEnum["InApp"],
-            $this->UnionPay_InAPP=> $this->scenesEnum["InApp"],
-            $this->ApplePay=> $this->scenesEnum["RedirectPay"],
-            $this->UnionPayMerchantHost=> $this->scenesEnum["MerchantHost"],
-            $this->UnionPayServerHost=> $this->scenesEnum["ServerHost"]
+            $this->UnionPayQR => $this->scenesEnum["QRCode"],
+            $this->AlipayQR => $this->scenesEnum["QRCode"],
+            $this->WeChatQR => $this->scenesEnum["QRCode"],
+            $this->WechatWebBasedInApp => $this->scenesEnum["RedirectPay"],
+            $this->UnionSecurePay => $this->scenesEnum["RedirectPay"],
+            $this->VISA => $this->scenesEnum["CreditCard"],
+            $this->VISA3D => $this->scenesEnum["ThreeDCreditCard"],
+            $this->Master => $this->scenesEnum["CreditCard"],
+            $this->Master3D => $this->scenesEnum["ThreeDCreditCard"],
+            $this->UnionPayExpressPay => $this->scenesEnum["CreditCard"],
+            $this->AMEX => $this->scenesEnum["CreditCard"],
+            $this->JCB => $this->scenesEnum["CreditCard"],
+            $this->PayPal => $this->scenesEnum["CreditCard"],
+            $this->Alipay => $this->scenesEnum["RedirectPay"],
+            $this->AlipayWap => $this->scenesEnum["RedirectPay"],
+            $this->Wechat_InAPP => $this->scenesEnum["InApp"],
+            $this->UnionPay_InAPP => $this->scenesEnum["InApp"],
+            $this->ApplePay => $this->scenesEnum["RedirectPay"],
+            $this->UnionPayMerchantHost => $this->scenesEnum["MerchantHost"],
+            $this->UnionPayServerHost => $this->scenesEnum["ServerHost"]
         );
         return $payMethod;
     }

@@ -3,11 +3,13 @@
 
   class merchantConfig{
       private $id;
-      private $agentId;
+      private $agentId = 0;
       function __construct($config)
       {
           $this->id = $config["id"];
-//          $this->agentId = $config["agentId"];
+          if(array_key_exists('agentId,',$config)){
+          $this->agentId = $config["agentId"];
+          }
       }
 
       //set方法

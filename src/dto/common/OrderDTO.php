@@ -1,5 +1,6 @@
 <?php
 namespace uqpay\payment\sdk\dto\common;
+use Particle\Validator\Validator;
 
  class OrderDTO extends PayOptionsDTO {
   /**
@@ -17,6 +18,20 @@ namespace uqpay\payment\sdk\dto\common;
   private $storeId; // your store id
   private $seller; // your seller id
 
+
+     public function __construct()
+     {
+         $this->validated();
+     }
+
+     protected function validated(){
+
+         $validator = new Validator;
+         $validator->required('orderId')->string();
+         $validator->required('amount')->numeric();
+         $validator->required('currency');
+         $validator->required('date');
+     }
      //set方法
      public function __set($name, $value)
      {

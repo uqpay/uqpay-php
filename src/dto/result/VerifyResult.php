@@ -1,18 +1,12 @@
 <?php
 
-namespace uqpay\payment\sdk\config;
-require_once 'baseConfig.php';
+namespace uqpay\payment\sdk\dto\result;
 
-class paygateConfig extends baseConfig
+class VerifyResult extends BaseResult
 {
-    private $apiRoot = "https://paygate.uqpay.com";
+    private $uqOrderId; // this order id generate by uqpay
 
-    public function __construct($config)
-    {
-        $this->apiRoot=$config["apiRoot"];
-    }
-
-//set方法
+    //set方法
     public function __set($name, $value)
     {
         $this->$name = $value;

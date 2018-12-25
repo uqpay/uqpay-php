@@ -1,6 +1,6 @@
 <?php
 
-namespace uqpay\payment\sdk\result;
+namespace uqpay\payment\sdk\dto\result;
 
 class RefundResult
 {

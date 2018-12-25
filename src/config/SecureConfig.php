@@ -2,7 +2,7 @@
 
 namespace uqpay\payment\sdk\config;
 
-class RSAconfig
+class SecureConfig
 {
     private $privateKeyStr;
     /**
