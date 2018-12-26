@@ -83,7 +83,7 @@ class UqpayAPI extends httpRequest
         $paramsMap = array_combine($paygateParams, (array)$this->auth);
         $payUtil = new payUtil();
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         ksort($paramsMap);
         return $paramsMap;
     }
@@ -92,7 +92,7 @@ class UqpayAPI extends httpRequest
     {
         $payUtil = new payUtil();
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         ksort($paramsMap);
         $resultMap = $this->httpArrayPost($url, $paramsMap);
         $payUtil->verifyUqpayNotice($resultMap, $this->paygateConfig);
@@ -103,7 +103,7 @@ class UqpayAPI extends httpRequest
     {
         $payUtil = new payUtil();
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         ksort($paramsMap);
         $resultMap = $this->httpJsonPost($url, $paramsMap);
 //        $payUtil->verifyUqpayNotice($resultMap, $this->paygateConfig);
@@ -114,7 +114,7 @@ class UqpayAPI extends httpRequest
     {
         $payUtil = new payUtil();
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         ksort($paramsMap);
         $resultMap = $this->httpRedirectArrayPost($url, $paramsMap);
         return $resultMap;
@@ -221,7 +221,7 @@ class UqpayAPI extends httpRequest
         $paramsMap[PAY_OPTIONS_CLIENT_TYPE] = (string)$payData["client"];
         $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $payData["returnUrl"];
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         $result = $this->directFormPost($url, $paramsMap);
         return $result;
     }
@@ -262,7 +262,7 @@ class UqpayAPI extends httpRequest
         $payUtil = new payUtil();
         $paramsMap = $payUtil->generateRefundParams($refund, $this->merchantConfig);
         ksort($paramsMap);
-        $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->paygateConfig);
+        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
         $result = $this->directFormPost($this->apiUrl(PAYGATE_API_REFUND), $paramsMap);
         return $result;
     }
@@ -327,7 +327,7 @@ class UqpayAPI extends httpRequest
                         $this->validatePayData($order["bankCard"]);
                         break;
                     default:
-                        $this->validatePayData(BankCardDTO::class->valueOf($order["bankCard"]));
+                        $this->validatePayData($order["bankCard"]);
                 }
                 return $this->CreditCardPayment($order, $order["bankCard"], $this->apiUrl(PAYGATE_API_PAY));
             case "ThreeDCreditCard":
@@ -466,7 +466,7 @@ public function createQRCode(EmvcoCreateDTO $createDTO){
     $paramsMap = $cashier->getParamsMap();
          $payUtil = new payUtil();
          ksort($paramsMap);
-         $paramsMap = $payUtil->signParams(http_build_query($paramsMap), $this->cashierConfig);
+         $paramsMap = $payUtil->signParams($paramsMap, $this->cashierConfig);
     return $this->cashierConfig['apiRoot'] ."?" . http_build_query($paramsMap);
   }
 
