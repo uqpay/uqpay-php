@@ -401,7 +401,9 @@ class UqpayAPI extends httpRequest
 
     function enroll(EnrollOrder $order, BankCardDTO $bankCardDTO)
     {
-        $order->tradeType = UqpayTradeType["enroll"];
+        $payMethodObject = new payMethod();
+        $UqpayTradeType = $payMethodObject->UqpayTradeType;
+        $order->tradeType = $UqpayTradeType["enroll"];
 
         $payMethodObject = new payMethod();
         $payMethod = $payMethodObject->payMethod();
@@ -418,7 +420,9 @@ class UqpayAPI extends httpRequest
 
     function verify(VerifyOrder $order)
     {
-        $order->tradeType = UqpayTradeType["verifycode"];
+        $payMethodObject = new payMethod();
+        $UqpayTradeType = $payMethodObject->UqpayTradeType;
+        $order->tradeType = $UqpayTradeType["verifycode"];
         return $this->VerifyPhone($order);
     }
 

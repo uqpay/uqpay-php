@@ -1,12 +1,11 @@
 <?php
 
 namespace uqpay\payment\sdk\config;
-require_once 'RSAconfig.php';
 class baseConfig
 {
-    private $testMode = false;
-    private $testRSA;
-    private $productRSA;
+    var $testMode = false;
+    var $testRSA;
+    var $productRSA;
 
     public function getRSA()
     {

@@ -58,11 +58,11 @@ class payUtil
 
     function signParams($data, $config)
     {
-        $priKey = file_get_contents($config->rsaConfig->privateKeyPath);
+        $priKey = file_get_contents($config->getRSA()["privateKeyPath"]);
         //转换为openssl密钥，必须是没有经过pkcs8转换的私钥
         $res = openssl_get_privatekey($priKey);
         //调用openssl内置签名方法，生成签名$sign
-        openssl_sign(urldecode($data), $sign, $res);
+        openssl_sign(urldecode(http_build_query($data)), $sign, $res);
         openssl_free_key($res);
         $sign = base64_encode($sign);
         $data['sign']=$sign;
