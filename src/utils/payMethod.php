@@ -67,17 +67,17 @@ class payMethod
         "Dynamic" => 12,
     );
     public $UqpayTradeType = array(
-        "pay" => 101,
-        "cancel" => 102,
-        "refund" => 103,
-        "preauth" => 104,
-        "preauthcomplete" => 105,
-        "preauthcancel" => 106,
-        "preauthcc" => 107,
-        "verifycode" => 130,
-        "enroll" => 131,
-        "withdraw" => 140,
-        "query" => 180
+        "pay" => "pay",
+        "cancel" => "cancel",
+        "refund" => "refund",
+        "preauth" => "preauth",
+        "preauthcomplete" => "preauthcomplete",
+        "preauthcancel" => "preauthcancel",
+        "preauthcc" => "preauthcc",
+        "verifycode" => "verifycode",
+        "enroll" => "enroll",
+        "withdraw" => "withdraw",
+        "query" => "query"
     );
 
     function payMethod()
