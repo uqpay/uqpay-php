@@ -1,491 +1,280 @@
 <?php
 
-namespace uqpay\payment\sdk;
 
-use uqpay\payment\sdk\config\AppgateConfig;
-use uqpay\payment\sdk\dto\common\BaseJsonRequestDTO;
-use uqpay\payment\sdk\dto\emvco\EmvcoCreateDTO;
-use uqpay\payment\sdk\dto\emvco\EmvcoGetPayloadDTO;
-use uqpay\payment\sdk\dto\enroll\EnrollOrder;
-use uqpay\payment\sdk\config\merchantConfig;
-use uqpay\payment\sdk\config\paygateConfig;
-use uqpay\payment\sdk\config\cashierConfig;
-use Particle\Validator\Validator;
-use uqpay\payment\sdk\dto\exchangeRate\ExchangeRateQueryDTO;
-use uqpay\payment\sdk\dto\merchant\MerchantRegisterDTO;
-use uqpay\payment\sdk\dto\preAuth\PreAuthOrder;
-use uqpay\payment\sdk\dto\result\TransResult;
-use uqpay\payment\sdk\utils\payMethod;
-use uqpay\payment\sdk\utils\payUtil;
-use uqpay\payment\sdk\utils\httpRequest;
-use uqpay\payment\sdk\dto\common\AuthDTO;
-use uqpay\payment\sdk\dto\common\BankCardDTO;
-use uqpay\payment\sdk\dto\enroll\VerifyOrder;
-use uqpay\payment\sdk\vo\UqpayCashier;
+namespace uqpay\payment;
 
-include 'utils/payUtil.php';
-include 'utils/constants.php';
+use ReflectionException;
+use uqpay\payment\config\ConfigOfAPI;
+use uqpay\payment\config\security\SecurityUqpayException;
+use uqpay\payment\model\BankCard;
+use uqpay\payment\model\CancelResult;
+use uqpay\payment\model\CashierRequest;
+use uqpay\payment\model\HttpClientInterface;
+use uqpay\payment\model\OrderCancel;
+use uqpay\payment\model\OrderQuery;
+use uqpay\payment\model\OrderRefund;
+use uqpay\payment\model\PaymentOrder;
+use uqpay\payment\model\PaymentResult;
+use uqpay\payment\model\QueryResult;
+use uqpay\payment\model\RefundResult;
 
+class UqpayAPI {
 
-class UqpayAPI extends httpRequest
-{
-    private $paygateConfig;
-    private $merchantConfig;
-    private $cashierConfig;
-    private $appgateConfig;
-    private $auth;
+	/**
+	 * @var ConfigOfAPI
+	 */
+	private $config;
 
-    function __construct(paygateConfig $paygateConfig, merchantConfig $merchantConfig, cashierConfig $cashierConfig, AppgateConfig $appgateConfig)
-    {
-        $this->paygateConfig = $paygateConfig;
-        $this->merchantConfig = $merchantConfig;
-        $this->cashierConfig = $cashierConfig;
-        $this->appgateConfig = $appgateConfig;
-        $this->auth = new authDTO();
-        $this->auth->agentId = $merchantConfig->agentId;
-        $this->auth->merchantId = $merchantConfig->id;
-    }
+	/**
+	 * @var HttpClientInterface
+	 */
+	private $http_client;
 
-    private function validatePayData($object, $msg = "pay data invalid for uqpay payment")
-    {
-        $validator = new Validator;
-        $violations = $validator->validate($object);
-        if (!$violations->isValid()) {
-            throw new \Exception($msg);
-        }
-        return $violations->isValid();
-    }
+	/**
+	 * UqpayAPI constructor.
+	 *
+	 * @param ConfigOfAPI $config
+	 */
+	public function __construct(ConfigOfAPI $config) {
+		$this->config = $config;
+	}
 
-    public function updateMerchantId($merchantId)
-    {
-        $this->auth->merchantId = $merchantId;
-    }
+	public function setHttpClient(HttpClientInterface $http_client) {
+		$this->http_client = $http_client;
+	}
 
-    public function paygateApiUrl($url)
-    {
-        return $this->paygateConfig->apiRoot + $url;
-    }
+	public function isAvailable() {
+		return !empty($this->config) && $this->config->isAvailable();
+	}
 
-    public function appgateApiUrl($url)
-    {
-        return $this->appgateConfig->apiRoot + $url;
-    }
+	/**
+	 * @return ConfigOfAPI
+	 */
+	public function getConfig() {
+		return $this->config;
+	}
 
-    private function setAuthForJsonParams(BaseJsonRequestDTO $jsonParams)
-    {
-        $jsonParams->merchantId($this->auth->merchantId);
-        $jsonParams->agentId($this->auth->agentId);
-    }
+	/**
+	 * @param array $body
+	 * @param string $url
+	 *
+	 * @return array|mixed|object
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function doFormPost(array $body, $url) {
+		$headers = array(
+			'UQPAY-Version' => '1.0.0',
+			'content-type' => 'application/x-www-form-urlencoded;charset=UTF-8'
+		);
+		$request_body = http_build_query($body);
+		$res_body = $this->http_client->post($headers, $request_body, $url);
+		$result_array = json_decode($res_body, true);
+		if (ModelHelper::verifyPaymentResult($result_array, $this->config->getSecurity())) {
+			return $result_array;
+		}
+		throw new UqpayException('Verify payment result failed'.print_r($res_body));
+	}
 
-    private function generatePayParamsMap($args)
-    {
-        $paygateParams = (array)$args;
-        $paramsMap = array_combine($paygateParams, (array)$this->auth);
-        $payUtil = new payUtil();
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        ksort($paramsMap);
-        return $paramsMap;
-    }
+	/**
+	 * @param array $params_array
+	 * @param string $url
+	 * @param $result_class_name
+	 *
+	 * @return object
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function directFormPost(array $params_array, $url, $result_class_name) {
+		if ($this->config->member_type == Constants::MEMBER_TYPE_AGENT) {
+			$params_array[Constants::AUTH_AGENT_ID] = $this->config->uqpay_id;
+		}
+		ModelHelper::signRequestParams($params_array, $this->config->getSecurity());
+		$result_array = $this->doFormPost($params_array, $url);
+		return ModelHelper::parseResultData($result_array, $result_class_name);
+	}
 
-    private function directFormPost($url, $paramsMap)
-    {
-        $payUtil = new payUtil();
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        ksort($paramsMap);
-        $resultMap = $this->httpArrayPost($url, $paramsMap);
-        $payUtil->verifyUqpayNotice($resultMap, $this->paygateConfig);
-        return $resultMap;
-    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 *
+	 * @return PaymentResult
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function redirectPayment(PaymentOrder &$payment_order) {
+		$params_array = ModelHelper::assemblyOrderData($payment_order);
+		if (empty($payment_order->return_url)) {
+			throw new UqpayException('Payment parameters invalid: [return_url] is required for redirect payment, but is null');
+		}
+		ModelHelper::signRequestParams($params_array, $this->config->getSecurity());
+		return PaymentResult::builderRedirectResult($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_PAY));
+	}
 
-    private function directJsonPost($url, $paramsMap)
-    {
-        $payUtil = new payUtil();
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        ksort($paramsMap);
-        $resultMap = $this->httpJsonPost($url, $paramsMap);
-//        $payUtil->verifyUqpayNotice($resultMap, $this->paygateConfig);
-        return $resultMap;
-    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 *
+	 * @return object|PaymentResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function onlineQRCodePayment(PaymentOrder &$payment_order) {
+		$params_array = ModelHelper::assemblyOrderData($payment_order);
+		if (empty($payment_order->scan_type)) throw new UqpayException('Payment parameters invalid: [scan_type] is required for online QR Code payment, but is null');
+		if (empty($payment_order->identity) && $payment_order->scan_type == Constants::QR_CODE_SCAN_BY_MERCHANT) {
+			throw new UqpayException('Payment parameters invalid: [identity] is required for online QR Code payment when merchant scan consumer, but is null');
+		}
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_PAY), PaymentResult::class);
+	}
 
-    private function redirectPost($url, $paramsMap)
-    {
-        $payUtil = new payUtil();
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        ksort($paramsMap);
-        $resultMap = $this->httpRedirectArrayPost($url, $paramsMap);
-        return $resultMap;
-    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 *
+	 * @return object|PaymentResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function offlineQRCodePayment(PaymentOrder &$payment_order) {
+		$params_array = ModelHelper::assemblyOrderData($payment_order);
+		$errors = array();
+		if (empty($payment_order->identity)) { $errors[] = 'identity'; }
+		if (empty($payment_order->merchant_city)) { $errors[] = 'merchant_city'; }
+		if (empty($payment_order->terminal_id)) { $errors[] = 'terminal_id'; }
+		if (sizeof($errors) > 0) {
+			throw new UqpayException('Payment parameters invalid: ['.implode(',', $errors).'] is required for offline QR Code payment, but null');
+		}
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_PAY), PaymentResult::class);
+	}
 
-//    private function doServerSidePostPay($paramsMap)
-//    {
-//        return $this->doServerSidePost($this->apiUrl(PAYGATE_API_PAY), $paramsMap);
-//    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 * @param BankCard $bank_card
+	 *
+	 * @return object|PaymentResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function bankCardPayment(PaymentOrder &$payment_order, BankCard $bank_card) {
+		$params_array = ModelHelper::assemblyOrderData($payment_order, $bank_card);
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_PAY), PaymentResult::class);
+	}
 
-    private function apiUrl($url)
-    {
-        return $this->paygateConfig->apiRoot . $url;
-    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 *
+	 * @return object|PaymentResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	private function inAppPayment(PaymentOrder &$payment_order) {
+		$params_array = ModelHelper::assemblyOrderData($payment_order);
+		if ($payment_order->client_type == Constants::PAYMENT_SUPPORTED_CLIENT_PC) {
+			throw new UqpayException('Payment parameters invalid: uqpay in-app payment not support pc client');
+		}
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_PAY), PaymentResult::class);
+	}
 
-    private function QRCodePayment($pay, $url)
-    {
-        $payMethod = new payMethod();
-        $UqpayScanType = $payMethod->UqpayScanType;
-        $this->validatePayData($pay);
-        if ($pay["scantype"] == null) throw new \Exception("uqpay qr code payment need Scan Type");
-        if (strcmp($pay["scantype"], $UqpayScanType["Merchant"]) == 0 && $pay["identity"] == null) throw new \Exception("uqpay qr code payment need the identity data when scan type is merchant");
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateDefPayParams($pay, $this->merchantConfig);
-        $paramsMap[PAY_OPTIONS_SCAN_TYPE] = (string)$pay["scantype"];
-        $result = $this->directFormPost($url, $paramsMap);
-        return $result;
-    }
+	/**
+	 * @param PaymentOrder $payment_order
+	 *
+	 * @param BankCard|null $bank_card
+	 *
+	 * @return object|PaymentResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function pay(PaymentOrder $payment_order, BankCard $bank_card=null) {
+		$payment_order->trade_type = Constants::TRADE_TYPE_PAY;
+		if ($this->config->member_type == Constants::MEMBER_TYPE_MER) {
+			$payment_order->merchant_id = $this->config->uqpay_id;
+		}
+		$scene = PayMethodHelper::SCENE_OF_METHOD[$payment_order->method_id];
+		if (empty($scene)) {
+			throw new UqpayException('UnSupport Payment method: '.$payment_order->method_id);
+		}
+		switch ($scene) {
+			case PayMethodHelper::SCENES_REDIRECT_PAY:
+				return $this->redirectPayment($payment_order);
+			case PayMethodHelper::SCENES_QR:
+				return $this->onlineQRCodePayment($payment_order);
+			case PayMethodHelper::SCENES_OFFLINE_QR:
+				return $this->offlineQRCodePayment($payment_order);
+			case PayMethodHelper::SCENES_CREDIT_CARD:
+				if ($bank_card==null) throw new UqpayException('Payment parameters invalid: bank card info is required, but null');
+				return $this->bankCardPayment($payment_order, $bank_card);
+			case PayMethodHelper::SCENES_IN_APP:
+				return $this->inAppPayment($payment_order);
+		}
+		return null;
+	}
 
-    private function OfflineQRCodePayment($pay, $url)
-    {
-        if ($pay["identity"] == null)
-            throw new \Exception("uqpay offline qr code payment need the identity data");
-        if ($pay["merchantCity"] == null) {
-            throw new \Exception("uqpay offline qr code payment need the merchant city data");
-        }
-        if ($pay["terminalID"] == null) {
-            throw new \Exception("uqpay offline qr code payment need the terminal id data");
-        }
-        $paramsMap = $this->generatePayParamsMap($pay);
-        return $this->directFormPost($url, $paramsMap);
-    }
+	/**
+	 * @param OrderRefund $order_refund
+	 *
+	 * @return object|RefundResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function refund(OrderRefund $order_refund) {
+		if ($this->config->member_type == Constants::MEMBER_TYPE_MER) {
+			$order_refund->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData($order_refund);
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_REFUND), RefundResult::class);
+	}
 
-    private function RedirectPayment($payOptions, $url)
-    {
-        if ($payOptions["returnUrl"] == null || $payOptions["returnUrl"] == "") {
-            throw new \Exception("uqpay online payment need sync notice url");
-        }
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateDefPayParams($payOptions, $this->merchantConfig);
-        $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $payOptions["returnUrl"];
-        $transResult = new TransResult($paramsMap, $url);
-        return $transResult;
-    }
+	/**
+	 * @param OrderCancel $order_cancel
+	 *
+	 * @return object|CancelResult
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function cancel(OrderCancel $order_cancel) {
+		if ($this->config->member_type == Constants::MEMBER_TYPE_MER) {
+			$order_cancel->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData($order_cancel);
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_CANCEL), CancelResult::class);
+	}
 
-    private function generateCreditCardPayParams($creditCard, $payData)
-    {
-        $this->validatePayData($creditCard, "credit card info invalid for uqpay credit card payment");
-        $this->validatePayData($payData);
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateDefPayParams($payData, $this->merchantConfig);
-        $paramsMap["creditCard"] = ($payUtil->generateCreditCardPayParams($creditCard));
-        return $paramsMap;
-    }
+	/**
+	 * @param OrderQuery $order_query
+	 *
+	 * @return object
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function query(OrderQuery $order_query) {
+		if ($this->config->member_type == Constants::MEMBER_TYPE_MER) {
+			$order_query->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData($order_query);
+		return $this->directFormPost($params_array, $this->config->getPaymentApiUrl(Constants::PAYGATE_API_QUERY), QueryResult::class);
+	}
 
-    private function MerchantHostPayment($pay, $bankCard, $url)
-    {
-        $paramsMap = $this->generateCreditCardPayParams($bankCard, $pay);
-        return $this->directFormPost($url, $paramsMap);
-    }
+	/**
+	 * Generate the cashier Link
+	 * @param CashierRequest $cashier_request
+	 *
+	 * @return string
+	 * @throws SecurityUqpayException
+	 */
+	public function cashier(CashierRequest $cashier_request) {
+		if ($this->config->member_type == Constants::MEMBER_TYPE_MER) {
+			$cashier_request->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData($cashier_request);
+		ModelHelper::signRequestParams($params_array, $this->config->getSecurity());
+		return $this->config->getCashierApiUrl('/?'.http_build_query($params_array));
+	}
 
-    private function ServerHostPayment($pay, $bankCard, $url)
-    {
-        $paramsMap = $this->generateCreditCardPayParams($bankCard, $pay);
-        return $this->directFormPost($url, $paramsMap);
-    }
-
-    private function CreditCardPayment($creditCard, $payData, $url)
-    {
-        $result = $this->directFormPost($url, $this->generateCreditCardPayParams($creditCard, $payData));
-        return $result;
-    }
-
-    private function ThreeDSecurePayment($creditCard, $payData, $url)
-    {
-        if ($payData["returnUrl"] == null || strcmp($payData["returnUrl"], "") == 0)
-            throw new \Exception("uqpay 3D secure payment need sync notice url");
-        $paramsData = $this->generateCreditCardPayParams($creditCard, $payData);
-        $transResult = new TransResult($paramsData, $url);
-        return $transResult;
-    }
-
-
-    private
-    function InAppPayment($payData, $url)
-    {
-        if ($payData["client"] == null) throw new \Exception("client type is required for uqpay in-app payment");
-        $payMethod = new payMethod();
-        $paymentSupportClient = $payMethod->paymentSupportClient;
-        if (strcmp($payData["client"], $paymentSupportClient["PC_WEB"]) == 0) throw new \Exception("uqpay in-app payment not support pc client");
-        $this->validatePayData($payData);
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateDefPayParams($payData, $this->merchantConfig);
-        $paramsMap[PAY_OPTIONS_CLIENT_TYPE] = (string)$payData["client"];
-        $paramsMap[PAY_OPTIONS_SYNC_NOTICE_URL] = $payData["returnUrl"];
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        $result = $this->directFormPost($url, $paramsMap);
-        return $result;
-    }
-
-    private function PreAuthFinish(PreAuthOrder $order)
-    {
-        if ($order->uqOrderId <= 0) {
-            throw new \Exception("uqpay order id is required");
-        }
-        $paramsMap = array();
-        $paramsMap["transName"] = $order->transName;
-        $paramsMap["uqOrderId"] = $order->uqOrderId;
-        return $this->directFormPost($this->apiUrl(PAYGATE_API_PRE_AUTH), $paramsMap);
-    }
-
-    private function EnrollCard(EnrollOrder $order, BankCardDTO $bankCardDTO)
-    {
-        $paramsMap = array();
-        $paramsMap["orderId"] = $order->orderId;
-        $paramsMap["date"] = $order->date;
-        $paramsMap["verifyCode"] = $order->verifyCode;
-        $paramsMap["codeOrderId"] = $order->codeOrderId;
-        return $this->directFormPost($this->apiUrl(PAYGATE_API_ENROLL), $paramsMap);
-    }
-
-    private function VerifyPhone(VerifyOrder $order)
-    {
-        $payMethodObject = new payMethod();
-        $UqpayTradeType = $payMethodObject->UqpayTradeType;
-        $order->tradeType = $UqpayTradeType["verifycode"];
-        return $this->directFormPost($this->apiUrl(PAYGATE_API_VERIFY), $order);
-    }
-
-    private
-    function Refund($refund)
-    {
-        $this->validatePayData($refund, "refund request data invalid for uqpay order operation");
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateRefundParams($refund, $this->merchantConfig);
-        ksort($paramsMap);
-        $paramsMap = $payUtil->signParams($paramsMap, $this->paygateConfig);
-        $result = $this->directFormPost($this->apiUrl(PAYGATE_API_REFUND), $paramsMap);
-        return $result;
-    }
-
-    private
-    function Cancel($cancel)
-    {
-        $this->validatePayData($cancel, "cancel payment request data invalid for uqpay order operation");
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateCancelParams($cancel, $this->merchantConfig);
-        $result = $this->directFormPost($this->apiUrl(PAYGATE_API_CANCEL), $paramsMap);
-        return $result;
-    }
-
-    private
-    function Query($query)
-    {
-        $this->validatePayData($query, "query request data invalid for uqpay order operation");
-        $payUtil = new payUtil();
-        $paramsMap = $payUtil->generateQueryParams($query, $this->merchantConfig);
-        $result = $this->directFormPost($this->apiUrl(PAYGATE_API_QUERY), $paramsMap);
-        return $result;
-    }
-
-
-//===========================================
-// Pay API
-//===========================================
-
-    /**
-     * @param $order
-     * @return mixed|null|TransResult
-     */
-
-
-    function pay($order)
-    {
-
-        $payMethodObject = new payMethod();
-        $UqpayTradeType = $payMethodObject->UqpayTradeType;
-        $order["tradeType"] = $UqpayTradeType["pay"];
-        $this->validatePayData($order);
-        $payMethod = $payMethodObject->payMethod();
-        $scenes = $payMethod[$order["methodId"]];
-        switch ($scenes) {
-            case "QRCode":
-                return $result = $this->QRCodePayment($order, $this->apiUrl(PAYGATE_API_PAY));
-                break;
-            case "OfflineQRCode":
-                return $this->OfflineQRCodePayment($order, $this->paygateApiUrl(PAYGATE_API_PAY));
-            case "OnlinePay":
-                return $this->RedirectPayment($order, $this->paygateApiUrl(PAYGATE_API_PAY));
-            case "InApp":
-                return $result = $this->InAppPayment($order, $this->apiUrl(PAYGATE_API_PAY));
-                break;
-            case "CreditCard":
-                switch ($order->methodId) {
-                    case $payMethodObject->AMEX:
-                    case $payMethodObject->JCB:
-                    case $payMethodObject->Master:
-                    case $payMethodObject->VISA:
-                        $this->validatePayData($order["bankCard"]);
-                        break;
-                    default:
-                        $this->validatePayData($order["bankCard"]);
-                }
-                return $this->CreditCardPayment($order, $order["bankCard"], $this->apiUrl(PAYGATE_API_PAY));
-            case "ThreeDCreditCard":
-                $this->validatePayData($order["bankCard"]);
-                return $this->ThreeDSecurePayment($order, $order["bankCard"], $this->apiUrl(PAYGATE_API_PAY));
-            case "MerchantHost":
-                return $this->MerchantHostPayment($order, $order["merchantHost"], $this->apiUrl(PAYGATE_API_PAY));
-            case "ServerHost":
-                return $this->ServerHostPayment($order, $order["serverHost"], $this->apiUrl(PAYGATE_API_PAY));
-            default:
-                $result = null;
-        }
-        return $result;
-    }
-
-
-
-//===========================================
-// PreAuth API
-//===========================================
-
-    /**
-     * check the code ,it's easy to understand.
-     * be sure set the right trade type
-     * @param order required
-     * @param bankCard optional
-     * @return
-     * @throws UqpayRSAException
-     * @throws UqpayResultVerifyException
-     * @throws UqpayPayFailException
-     * @throws IOException
-     * throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException
-     */
-    function preAuth(PreAuthOrder $order)
-    {
-        $this->validatePayData($order);
-        switch ($order->tradeType) {
-            case "preauth":
-                $payMethodObject = new payMethod();
-                $payMethod = $payMethodObject->payMethod();
-                $scenes = $payMethod[$order["methodId"]];
-                switch ($scenes) {
-                    case "InApp":
-                        return $this->InAppPayment($order, $this->paygateApiUrl(PAYGATE_API_PRE_AUTH));
-                    case "CreditCard":
-                        $this->validatePayData($order["bankCard"]);
-                        return $this->CreditCardPayment($order, $order["bankCard"], $this->paygateApiUrl(PAYGATE_API_PRE_AUTH));
-                    case "OnlinePay":
-                        return $this->ThreeDSecurePayment($order, $order["bankCard"], $this->paygateApiUrl(PAYGATE_API_PRE_AUTH));
-                    case "MerchantHost":
-                        return $this->MerchantHostPayment($order, $order["merchantHost"], $this->apiUrl(PAYGATE_API_PRE_AUTH));
-                    case "ServerHost":
-                        return $this->MerchantHostPayment($order, $order["serverHost"], $this->apiUrl(PAYGATE_API_PRE_AUTH));
-                    default:
-                        return null;
-                }
-            case "preauthcc":
-            case "preauthcomplete":
-            case "preauthcancel":
-                return $this->PreAuthFinish($order);
-            default:
-                return null;
-        }
-    }
-
-
-
-    //===========================================
-    // Enroll API
-    //===========================================
-
-    function enroll(EnrollOrder $order, BankCardDTO $bankCardDTO)
-    {
-        $payMethodObject = new payMethod();
-        $UqpayTradeType = $payMethodObject->UqpayTradeType;
-        $order->tradeType = $UqpayTradeType["enroll"];
-
-        $payMethodObject = new payMethod();
-        $payMethod = $payMethodObject->payMethod();
-        $scenes = $payMethod[$order["methodId"]];
-        switch ($scenes) {
-            case "MerchantHost":
-                return $this->EnrollCard($order, $bankCardDTO);
-            case "ServerHost":
-                return $this->EnrollCard($order, $bankCardDTO);
-            default:
-                return null;
-        }
-    }
-
-    function verify(VerifyOrder $order)
-    {
-        $payMethodObject = new payMethod();
-        $UqpayTradeType = $payMethodObject->UqpayTradeType;
-        $order->tradeType = $UqpayTradeType["verifycode"];
-        return $this->VerifyPhone($order);
-    }
-
-    //===========================================
-    // Merchant Register API
-    //===========================================
-
-public function register(MerchantRegisterDTO $registerDTO){
-$this->setAuthForJsonParams($registerDTO);
-return $this->directJsonPost($registerDTO,$this->appgateApiUrl(APPGATE_API_REGISTER));
-}
-
-//===========================================
-// EMVCO QRCode API
-//===========================================
-
-public function createQRCode(EmvcoCreateDTO $createDTO){
-    $this->setAuthForJsonParams($createDTO);
-    return $this->directJsonPost($createDTO,$this->appgateApiUrl(APPGATE_API_EMVCO_CREATE));
-  }
-
-  public function getQRCodePayload(EmvcoGetPayloadDTO $payloadDTO){
-    $this->setAuthForJsonParams($payloadDTO);
-    return $this->directJsonPost($payloadDTO,$this->appgateApiUrl(APPGATE_API_EMVCO_PAYLOAD));
-  }
-
-  //===========================================
-  // UQPAY Public Resource API
-  //===========================================
-
-  public function queryExchangeRate(ExchangeRateQueryDTO $queryDTO){
-    $this->setAuthForJsonParams($queryDTO);
-    return $this->directJsonPost($queryDTO, $this->appgateApiUrl(APPGATE_API_RES_EXCHANGE_RATE));
-  }
-
-  //===========================================
-  // Cashier API
-  //===========================================
-  public function generateCashierLink(UqpayCashier $cashier)
-     {
-    $paramsMap = $cashier->getParamsMap();
-         $payUtil = new payUtil();
-         ksort($paramsMap);
-         $paramsMap = $payUtil->signParams($paramsMap, $this->cashierConfig);
-    return $this->cashierConfig['apiRoot'] ."?" . http_build_query($paramsMap);
-  }
-
-
-//set方法
-    public
-    function __set($name, $value)
-    {
-        $this->$name = $value;
-    }
-
-//get方法
-    public
-    function __get($name)
-    {
-        if (!isset($this->$name)) {
-            //未设置
-            $this->$name = "";
-        }
-        return $this->$name;
-    }
 }

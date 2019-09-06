@@ -1,24 +1,27 @@
 {
-    "name": "uqpay/payment-sdk",
-    "type": "library",
-    "description": "Uqpay payment SDK",
-    "keywords": ["uqpay", "payment"],
-    "homepage": "https://github.com/uqpaytechnology/php-server-sdk",
-    "license" : "MIT",
-    "authors": [
-        {
-            "name": "tongjin",
-            "email": "tongjin@uqpay.com"
-        }
-    ],
-    "require": {
-        "particle/validator": "^2.3",
-        "guzzlehttp/guzzle":"^6.3",
-        "php": ">=5.4"
-    },
-    "autoload": {
-        "psr-4": {
-            "uqpay\\payment\\sdk\\": "src/"
-        }
+  "name": "uqpay/payment",
+  "type": "library",
+  "description": "Uqpay payment SDK",
+  "keywords": [
+    "uqpay",
+    "payment"
+  ],
+  "homepage": "https://github.com/uqpaytechnology/php-server-sdk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "uqpay",
+      "email": "developer@uqpay.tech"
     }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "ext-openssl": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "uqpay\\payment\\": "src/"
+    }
+  }
 }
