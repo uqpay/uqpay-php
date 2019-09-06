@@ -13,7 +13,7 @@ class Constants {
 	const MEMBER_TYPE_AGENT = 'agent';
 
 	const PAYMENT_API_ROOT = array(
-		self::ENV_MODE_TEST => 'https://paygate.uqpay.cn',
+		self::ENV_MODE_TEST => 'https://paygate.uqpay.net',
 		self::ENV_MODE_PROD => 'https://paygate.uqpay.com'
 	);
 	const OPERATION_API_ROOT = array(
