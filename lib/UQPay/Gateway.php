@@ -18,7 +18,7 @@ use uqpay\payment\model\PaymentResult;
 use uqpay\payment\model\QueryResult;
 use uqpay\payment\model\RefundResult;
 
-class UqpayAPI {
+class Gateway {
 
 	/**
 	 * @var ConfigOfAPI
@@ -73,7 +73,7 @@ class UqpayAPI {
 		if (ModelHelper::verifyPaymentResult($result_array, $this->config->getSecurity())) {
 			return $result_array;
 		}
-		throw new UqpayException('Verify payment result failed'.print_r($res_body));
+		throw new UqpayException('Verify payment result failed: '.$res_body);
 	}
 
 	/**

@@ -70,7 +70,7 @@ class ModelHelper {
 		unset( $origin_array[ Constants::AUTH_SIGN_TYPE ] );
 		ksort( $origin_array );
 		$verify_target = urldecode( http_build_query( $origin_array ) );
-
+		var_dump($verify_target);
 		return $security_config->verify( $verify_target, $signature );
 	}
 }

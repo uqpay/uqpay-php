@@ -10,7 +10,7 @@ interface HttpClientInterface {
 	 * @param string $body
 	 * @param string $url
 	 *
-	 * @return string the response body
+	 * @return string of the response body
 	 */
 	public function post(array $headers, $body, $url);
 }

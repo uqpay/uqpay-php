@@ -76,7 +76,6 @@ class ConfigOfAPI {
 		$security = new SecurityConfig();
 		$security->setEncipher( $prv_key_content, $prv_key_type );
 		$security->setDecipher( $uqpay_pub_key_content );
-
 		$result              = new self();
 		$result->uqpay_id    = $uqpay_id;
 		$result->member_type = $is_mer ? Constants::MEMBER_TYPE_MER : Constants::MEMBER_TYPE_AGENT;

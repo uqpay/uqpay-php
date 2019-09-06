@@ -2,64 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="041144eb-319e-4cdc-b117-f983e591456f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/model/BankCard.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/CancelResult.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/CashierRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/OrderCancel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/OrderQuery.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/QueryResult.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/ResultParameter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/load.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Constants.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModelHelper.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PayMethodHelper.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UqpayAPI.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/AppgateConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/SecureConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/baseConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/cashierConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/merchantConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/paygateConfig.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/PayOptions.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/PaygateParams.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/AuthDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/BankCardDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/BankCardExtendDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/BaseJsonRequestDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/MerchantHostDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/OrderDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/PayOptionsDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/common/ServerHostDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/emvco/EmvcoCreateDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/emvco/EmvcoGetPayloadDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/enroll/EnrollOrder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/enroll/VerifyOrder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/exchangeRate/ExchangeRateQueryDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/merchant/MerchantRegisterDTO.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/operation/OrderCancel.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/operation/OrderQuery.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/operation/OrderRefund.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/pay/PayOrder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/preAuth/PreAuthOrder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/BaseResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/CancelResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/EnrollResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/QueryResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/RedirectPostData.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/RefundResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/TransResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/VerifyResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/appgate/BaseAppgateResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/appgate/ExchangeRateResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/appgate/PayloadResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/result/appgate/QRCodeResult.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exception/UqpayPayFailException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/RSAUtil.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constants.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/httpRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/payMethod.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/payUtil.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vo/UqpayCashier.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UqpayException.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/annotations/ParamLink.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/ConfigOfAPI.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/security/SecretKey.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/security/SecurityConfig.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/security/SecurityUqpayException.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/BankCard.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/CancelResult.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/CashierRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/GeneralResult.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/HttpClientInterface.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/OrderCancel.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/OrderQuery.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/OrderRefund.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PaymentOptions.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PaymentOrder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PaymentParameter.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PaymentResult.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PostRedirectData.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/QueryResult.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/RefundResult.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/ResultParameter.php" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,20 +54,21 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/src/model" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="C:\wamp\www\sdk\src" />
-      <recent name="C:\wamp\www\sdk\src\dto\result" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/UQPay" />
       <recent name="C:\wamp\www\sdk\src\dto" />
       <recent name="C:\Users\tongjin\Desktop\sdk\src\utils" />
       <recent name="C:\wamp\www\sdk\src" />
@@ -188,7 +162,7 @@
       <workItem from="1545709118045" duration="17886000" />
       <workItem from="1545788311015" duration="6718000" />
       <workItem from="1545902519558" duration="92000" />
-      <workItem from="1567678295563" duration="16394000" />
+      <workItem from="1567678295563" duration="26117000" />
     </task>
     <servers />
   </component>
