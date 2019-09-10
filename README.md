@@ -54,12 +54,15 @@ $uqpay_gateway = new Gateway($uqpay_config);
  **/
 class HttpClient implements HttpClientInterface {
 	public function post( array $headers, $body, $url ) {
+        $curl_headers = array();
+		$curl_headers[] = 'Content-type: '.$headers['content-type'];
+		$curl_headers[] = 'UQPAY-Version: '.$headers['UQPAY-Version'];
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_headers);
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
 		$res = curl_exec($curl);
@@ -93,6 +96,36 @@ $bank_card->expire_month=12;
 
 $result = $uqpay_gateway->pay($payment_order, $bank_card);
 var_dump($result);
+
+/**
+ * emvco create
+ */
+$partner_id = 1005393;
+$merchant_of_this_partner = 1005412;
+$partner_prv_key = 'Your_partner_prv_key_Content';
+$partner_uqpay_pub_key = 'The_UQPAY_Public_Key_Your_Downloaded_Content';
+$uqpay_partner_config = ConfigOfAPI::builder(
+	$partner_prv_key,
+	Constants::SIGN_TYPE_RSA,
+	$partner_uqpay_pub_key,
+	$partner_id,
+	$test_mode,
+	false // set false means your are a partner
+);
+
+$uqpay_gateway = new Gateway($uqpay_partner_config);
+$uqpay_gateway->setHttpClient(new HttpClient());
+$emvco = new EmvcoCreator();
+$emvco->type = Constants::QR_CHANNEL_TYPE_UNION;
+$emvco->name = 'PHP TEST';
+$emvco->code_type = Constants::QR_TYPE_STATIC;
+$emvco->terminal_id = '10001A';
+$emvco->city = 'Singapore';
+$emvco->date = time();
+$emvco->merchant_id = $merchant_of_this_partner;
+
+$qr_result = $uqpay_gateway->createQRCode($emvco);
+var_dump($qr_result);
 
 ```
 ## Documentation

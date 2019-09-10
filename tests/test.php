@@ -5,6 +5,7 @@ use uqpay\payment\config\ConfigOfAPI;
 use uqpay\payment\Constants;
 use uqpay\payment\Gateway;
 use uqpay\payment\model\BankCard;
+use uqpay\payment\model\EmvcoCreator;
 use uqpay\payment\model\HttpClientInterface;
 use uqpay\payment\model\PaymentOrder;
 use uqpay\payment\PayMethodHelper;
@@ -66,12 +67,15 @@ $uqpay_gateway = new Gateway($uqpay_config);
  **/
 class HttpClient implements HttpClientInterface {
 	public function post( array $headers, $body, $url ) {
+		$curl_headers = array();
+		$curl_headers[] = 'Content-type: '.$headers['content-type'];
+		$curl_headers[] = 'UQPAY-Version: '.$headers['UQPAY-Version'];
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_headers);
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
 		$res = curl_exec($curl);
@@ -105,3 +109,67 @@ $bank_card->expire_month=12;
 
 $result = $uqpay_gateway->pay($payment_order, $bank_card);
 var_dump($result);
+
+/**
+ * emvco create
+ */
+$partner_id = 1005393;
+$merchant_of_this_partner = 1005412;
+$partner_prv_key = '-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA7nrkEPqeWp/WhLl/sTQNdtQ0kMGzY5SS8wytR00FIDOj/9kv
+C2+mCfW/pY5CsIwQKR/bw6Nbe5fCsZbx2j84ioCjizIxX9dCh9ysC8ADcU18gPh7
+KNTncfRfte+HR4v1AA6nA2JikGqhw44dvJS92dUh3Eutt2lnk+7fHjnztvJVyC7O
+Vo7VQSrb7CjgVfvWwh+XFKu7BDFXXifYj6U+wjoxFZgURXpMry8I9Hr5tVy33zho
+BTyT6SjTK9VOaB5NT1hZmBjMJir/Qet9PtS4BqfFf0r6jDnps7Iem1MGCDfUhYC1
+GczgXcD71K2zoMqF8Uhwfppj16jlqij2jNWTKwIDAQABAoIBAFc938cSV/HhPVHq
+pnsGBtLsyJoYMm8AgE2n2pAV7gUcvycupZYybvR/0W9YPq9lXdgdjoDgduwc1Z2w
+EaP8ssuASdP3NbbRAcbABLR7twaxCRYJUMzcLhszAfyFtuCGo8c0lQaY7GPWjn0C
+tYAyjc1tuehkSxWo2rp0jWz6WF0ZT1fszULhP3EkT3IjC1DRpZoSf0X6ENvvbMt4
+fUEQwUa16uu/M2WTYZOmfdAP5K09ejNAA/w9yEfvEi7gmV90Vbuz902TAQsskU8E
+I3Ra14/ilSXWU/5YkShMckuyF1wiDQHRIPvMNflCjSJ20vQp8QjIZO4X5Wpr6JGB
+8edrHjkCgYEA+zLGa3+x3aS3EOCsSxCmcdmPjkwbA54L5aqglycRsJKIkj2DOiv4
+OSIVpls2tV78dsmGVCPdHWzjODrnqGxfznvRaSNWNBVfnzRcI8JnHX3+y2lhLzhb
+NSHowEdhg6rKKw+1CRMLD5LAE/SnjU2XyJ/EpSWLvSTgyn5JwUiWbw0CgYEA8wnh
+KRufaAXSyYNfI7xApIpXPEcCEBlx1f+2GhZC3tHrXrILvgT6IsRFRBNezdV42eXC
+vkCfCyJMDanx15IJgT/uZXUhbXLaTC+gxUtfB4OmkDi1BAe4e/JUJutZrmBcQXL/
+HqR/fNQYbLpdKJa8gJNOiV1XQ++kQA8GlVdpvRcCgYEAjMOeRx0umeq0n2OXiRUS
+gJgPBwmE1dkaB6A/D5TYJ99lYrXPtKhxF+sOwMM6fBZ3WUWC3eGfBd8/0QHJUSsx
+4O6nocgohVU42Wko/OzyhadWQbyStjhZfAO9fwpBDdyGH+1UYHpoZ1iwBD7EKb3C
+ga1uL7FDhkGFKlPslsBLdH0CgYEA6cVw/JeDRw2C6S4iDz9+dkZTDrnGdDHlW1Ax
+mvoarDUCzv03ajljWJmtfoObRyW0rvLf1RxXXuBIg0QaSZ5A4j/aUWDPHHXDIFEX
+tW6AI7wwNL028H90plQ7OYxboO0zEAlK9/CGaE2iiMLh5K7I9mu6uUo9LC2PscZC
+MNf571UCgYBzM1h3iLe6yE/LIMWU5vLSGuWysZqjpdPHVb44v+wo/Jm0MZg8ngDY
+1CwUy0mpqheoABqE7QgVdUtDjOuusYcvWQtHImGxFGhiP8cmJ/g6rHokhaRoGtib
+878/2K2dliXW9npnMIRaKePoyLz5QXHm/2uoljORJrCFhcv0g/4zfQ==
+-----END RSA PRIVATE KEY-----';
+$partner_uqpay_pub_key = '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkAsYPNtb3YPv+sXNBN0s
+HX7FMn0/q85hD2+VMPFeeCGW1aLYuvAj8IUT0SjcVMiJl0GkVphJuQMaPzFqK6ns
+yy//duxfLCnhM7/I3loKlERGLN+mYhv4TS5KU3yMtyQra21YZ+/GKBqD1xQvvONA
+3Y1vxw0TgFiYVgGaGh8ZLKslcoylACCk31IdiAwNW25ha+Dc1jbDcVfQFdHcMGI1
+ovseA7Wskrn3DxH15ktWmf3xkZnxMDITeQERcMJ6+nVU4xmq2jscmdruuZNM0Xma
+C46cRvBLrMbIlsL1rkQlEuKhWKj+kcJvKWfZpEjeQpblmn6QmF5bHP6Qx3pz2h9/
+cQIDAQAB
+-----END PUBLIC KEY-----';
+$uqpay_partner_config = ConfigOfAPI::builder(
+	$partner_prv_key,
+	Constants::SIGN_TYPE_RSA,
+	$partner_uqpay_pub_key,
+	$partner_id,
+	$test_mode,
+	false
+);
+
+$uqpay_gateway = new Gateway($uqpay_partner_config);
+$uqpay_gateway->setHttpClient(new HttpClient());
+$emvco = new EmvcoCreator();
+$emvco->type = Constants::QR_CHANNEL_TYPE_UNION;
+$emvco->name = 'PHP TEST';
+$emvco->code_type = Constants::QR_TYPE_STATIC;
+$emvco->terminal_id = '10001A';
+$emvco->city = 'Singapore';
+$emvco->date = time();
+$emvco->merchant_id = $merchant_of_this_partner;
+
+$qr_result = $uqpay_gateway->createQRCode($emvco);
+var_dump($qr_result);

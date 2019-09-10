@@ -34,6 +34,13 @@ class SecurityConfig {
 	}
 
 	/**
+	 * @return SecretKey
+	 */
+	public function getEncipher() {
+		return $this->encipher;
+	}
+
+	/**
 	 * @param string $key_content
 	 * @param string $key_type
 	 *

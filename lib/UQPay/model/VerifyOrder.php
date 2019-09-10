@@ -9,8 +9,7 @@ use uqpay\payment\config\ConfigOfAPI;
 use uqpay\payment\Constants;
 use uqpay\payment\UqpayException;
 
-class PaymentOrder extends PaymentOptions {
-
+class VerifyOrder extends PaymentOptions {
 	/**
 	 * for merchant user this value is equal {@see ConfigOfAPI::$uqpay_id} and will be valued automatic
 	 * @var int
@@ -23,26 +22,6 @@ class PaymentOrder extends PaymentOptions {
 	 * @ParamLink(value=Constants::PAY_ORDER_ID, required=true)
 	 */
 	public $order_id;
-
-	/**
-	 * product info
-	 * @var string
-	 * @ParamLink(value=Constants::PAY_ORDER_TRANS_NAME, required=true)
-	 */
-	public $trans_name;
-
-	/**
-	 * @var double
-	 * @ParamLink(value=Constants::PAY_ORDER_AMOUNT, required=true)
-	 */
-	public $amount = 0;
-
-	/**
-	 * use ISO 4217 currency code
-	 * @var string
-	 * @ParamLink(value=Constants::PAY_ORDER_CURRENCY, required=true)
-	 */
-	public $currency;
 
 	/**
 	 * Unix timestamp
@@ -59,27 +38,25 @@ class PaymentOrder extends PaymentOptions {
 	public $client_ip;
 
 	/**
-	 * @var int
-	 * @ParamLink(value=Constants::PAY_ORDER_QUANTITY)
+	 * @var string
+	 * @ParamLink(value=Constants::BANK_CARD_CARD_NUM, required=true)
 	 */
-	public $quantity;
+	public $card_num;
 
 	/**
 	 * @var string
-	 * @ParamLink(value=Constants::PAY_ORDER_STORE_ID)
+	 * @ParamLink(value=Constants::BANK_CARD_PHONE)
 	 */
-	public $store_id;
+	public $phone;
 
 	/**
-	 * @var string
-	 * @ParamLink(value=Constants::PAY_ORDER_SELLER)
+	 * VerifyOrder constructor.
 	 */
-	public $seller;
+	public function __construct() {
+		$this->trade_type = Constants::TRADE_TYPE_VERIFY_CODE;
+	}
 
-	/**
-	 * @return array
-	 * @throws UqpayException
-	 */
+
 	public function getRequestArr() {
 		$result = parent::getRequestArr();
 		$errors = array();
@@ -93,21 +70,6 @@ class PaymentOrder extends PaymentOptions {
 		} else {
 			$result[ Constants::PAY_ORDER_ID ] = $this->order_id;
 		}
-		if ( empty( $this->trans_name ) ) {
-			$errors[] = 'trans_name';
-		} else {
-			$result[ Constants::PAY_ORDER_TRANS_NAME ] = $this->trans_name;
-		}
-		if ( empty( $this->amount ) || 0 == $this->amount ) {
-			$errors[] = 'amount';
-		} else {
-			$result[ Constants::PAY_ORDER_AMOUNT ] = $this->amount;
-		}
-		if ( empty( $this->currency ) ) {
-			$errors[] = 'currency';
-		} else {
-			$result[ Constants::PAY_ORDER_CURRENCY ] = $this->currency;
-		}
 		if ( empty( $this->date ) || 0 == $this->date ) {
 			$errors[] = 'date';
 		} else {
@@ -118,14 +80,10 @@ class PaymentOrder extends PaymentOptions {
 		} else {
 			$result[ Constants::PAY_ORDER_CLIENT_IP ] = $this->client_ip;
 		}
-		if ( ! empty( $this->quantity ) ) {
-			$result[ Constants::PAY_ORDER_QUANTITY ] = $this->quantity;
-		}
-		if ( ! empty( $this->store_id ) ) {
-			$result[ Constants::PAY_ORDER_STORE_ID ] = $this->store_id;
-		}
-		if ( ! empty( $this->seller ) ) {
-			$result[ Constants::PAY_ORDER_SELLER ] = $this->seller;
+		if ( empty( $this->phone ) ) {
+			$errors[] = 'phone';
+		} else {
+			$result[ Constants::BANK_CARD_PHONE ] = $this->phone;
 		}
 		if ( sizeof( $errors ) > 0 ) {
 			throw new UqpayException( 'Payment parameters invalid: [' . implode( ',', $errors ) . '] is required, but null' );

@@ -13,11 +13,11 @@ class Constants {
 	const MEMBER_TYPE_AGENT = 'agent';
 
 	const PAYMENT_API_ROOT = array(
-		self::ENV_MODE_TEST => 'https://paygate.uqpay.net',
+		self::ENV_MODE_TEST => 'https://paygate.uqpay.cn',
 		self::ENV_MODE_PROD => 'https://paygate.uqpay.com'
 	);
 	const OPERATION_API_ROOT = array(
-		self::ENV_MODE_TEST => 'https://appgate.uqpay.net',
+		self::ENV_MODE_TEST => 'https://appgate.uqpay.cn',
 		self::ENV_MODE_PROD => 'https://appgate.uqpay.com'
 	);
 	const CASHIER_API_ROOT = array(
@@ -26,10 +26,13 @@ class Constants {
 	);
 
 	const AUTH_SIGN = 'sign';
-	const AUTH_SIGNATURE = 'signature';
 	const AUTH_SIGN_TYPE = 'signtype';
 	const AUTH_MERCHANT_ID = 'merchantid';
 	const AUTH_AGENT_ID = 'agentid';
+	const AUTH_SIGN_JSON = 'signature';
+	const AUTH_SIGN_TYPE_JSON = 'signType';
+	const AUTH_MERCHANT_ID_JSON = 'merchantId';
+	const AUTH_AGENT_ID_JSON = 'agentId';
 
 	const PAY_OPTIONS_TRADE_TYPE = 'transtype';
 	const PAY_OPTIONS_METHOD_ID = 'methodid';
@@ -82,6 +85,20 @@ class Constants {
 	const PAYGATE_API_ENROLL = '/enroll';
 	const PAYGATE_API_VERIFY = '/verify';
 
+	const APPGATE_API_MERCHANT_REGISTER = '/merchant/register';
+	const APPGATE_API_MERCHANT_VIEW = '/merchant/view';
+	const APPGATE_API_MERCHANT_LIST = '/merchant/list';
+	const APPGATE_API_MERCHANT_CHECKING = '/file/checking';
+	const APPGATE_API_PRODUCT_CONFIG = '/product/config';
+	const APPGATE_API_PRODUCT_LIST = '/product/list';
+	const APPGATE_API_EMVCO_CREATE = '/emvco/create';
+	const APPGATE_API_EMVCO_QUERY = '/emvco/query';
+	const APPGATE_API_EMVCO_PAYLOAD = '/emvco/payload';
+	const APPGATE_API_RES_EXCHANGE_RATE = '/res/exchange';
+	const APPGATE_API_FINANCE_APPLY_WITHDRAW = '/finance/withdraw';
+	const APPGATE_API_FINANCE_BALANCE = '/finance/balance';
+	const APPGATE_API_HOST_INIT = '/hosted/init';
+
 	const ORDER_STATE_READY = 'Ready';
 	const ORDER_STATE_PAYING = 'Paying';
 	const ORDER_STATE_SUCCESS = 'Success';
@@ -119,4 +136,41 @@ class Constants {
 	const BANK_CARD_EMAIL = 'email';
 	const BANK_CARD_THREE_D_UQORDERID = 'uqorderid';
 	const BANK_CARD_THREE_D_PARES = 'paresponse';
+
+	const MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = 'codeorderid';
+	const MERCHANT_HOST_VERIFY_CODE = 'verifycode';
+	const SERVER_HOST_CARD_TOKEN = 'token';
+
+	const MERCHANT_REGISTER_NAME = 'name';
+	const MERCHANT_REGISTER_ABBR = 'abbr';
+	const MERCHANT_REGISTER_LOGIN_EMAIL = 'regEmail';
+	const MERCHANT_REGISTER_COMPANY_NAME = 'companyName';
+	const MERCHANT_REGISTER_COMPANY_ID = 'regNo';
+	const MERCHANT_REGISTER_COMPANY_ADDRESS = 'regAddress';
+	const MERCHANT_REGISTER_COMPANY_COUNTRY = 'country';
+	const MERCHANT_REGISTER_MCC = 'mcc';
+	const MERCHANT_REGISTER_WEBSITE = 'website';
+	const MERCHANT_REGISTER_CONTACT = 'contact';
+	const MERCHANT_REGISTER_MOBILE = 'mobile';
+	const MERCHANT_REGISTER_BUSINESS_EMAIL = 'email';
+
+	const MANAGER_BASE_RESULT_CODE = 'respCode';
+	const MANAGER_BASE_RESULT_MESSAGE = 'respMessage';
+
+	const QR_CHANNEL_TYPE_UNION = 'UnionPay';
+
+	const QR_TYPE_STATIC = 'Static';
+	const QR_TYPE_DYNAMIC = 'Dynamic';
+
+	const EMVCO_CREATOR_TYPE = 'type';
+	const EMVCO_CREATOR_NAME = 'name';
+	const EMVCO_CREATOR_CODE_TYPE = 'codeType';
+	const EMVCO_CREATOR_TERMINAL_ID = 'terminalId';
+	const EMVCO_CREATOR_SHOP_NAME = 'shopName';
+	const EMVCO_CREATOR_AMOUNT = 'amount';
+	const EMVCO_CREATOR_CITY = 'city';
+	const EMVCO_CREATOR_ORDER_ID = 'orderId';
+	const EMVCO_CREATOR_RESULT_CODE_ID = 'codeId';
+	const EMVCO_CREATOR_RESULT_PAYLOAD = 'payload';
+	const EMVCO_CREATOR_RESULT_CONTENT = 'content';
 }

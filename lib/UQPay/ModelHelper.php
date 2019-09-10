@@ -43,14 +43,24 @@ class ModelHelper {
 	 * @param array $params_array
 	 * @param SecurityConfig $security_config
 	 *
+	 * @param bool $is_json
+	 *
 	 * @throws config\security\SecurityUqpayException
 	 */
-	public static function signRequestParams( array &$params_array, SecurityConfig $security_config ) {
+	public static function signRequestParams( array &$params_array, SecurityConfig $security_config, $is_json=false ) {
 		ksort( $params_array );
-		$sign_target                               = urldecode( http_build_query( $params_array ) );
-		$sign_result                               = $security_config->sign( $sign_target );
-		$params_array[ Constants::AUTH_SIGN ]      = $sign_result['signature'];
-		$params_array[ Constants::AUTH_SIGN_TYPE ] = $sign_result['signature_type'];
+		if ($is_json) {
+			$params_array[Constants::AUTH_SIGN_TYPE_JSON] = $security_config->getEncipher()->sign_type;
+			$params_array[Constants::AUTH_SIGN_JSON] = '000000';
+			$sign_target                               = json_encode( $params_array );
+			$sign_result                               = $security_config->sign( $sign_target );
+			$params_array[ Constants::AUTH_SIGN_JSON ]      = $sign_result['signature'];
+		} else {
+			$sign_target                               = urldecode( http_build_query( $params_array ) );
+			$sign_result                               = $security_config->sign( $sign_target );
+			$params_array[ Constants::AUTH_SIGN ]      = $sign_result['signature'];
+			$params_array[ Constants::AUTH_SIGN_TYPE ] = $sign_result['signature_type'];
+		}
 	}
 
 	/**
@@ -58,7 +68,6 @@ class ModelHelper {
 	 * @param SecurityConfig $security_config
 	 *
 	 * @return bool
-	 * @throws UqpayException
 	 * @throws config\security\SecurityUqpayException
 	 */
 	public static function verifyPaymentResult( array $origin_array, SecurityConfig $security_config ) {
@@ -70,7 +79,22 @@ class ModelHelper {
 		unset( $origin_array[ Constants::AUTH_SIGN_TYPE ] );
 		ksort( $origin_array );
 		$verify_target = urldecode( http_build_query( $origin_array ) );
-		var_dump($verify_target);
+		return $security_config->verify( $verify_target, $signature );
+	}
+
+	/**
+	 * @param $res_body
+	 * @param $signature
+	 * @param SecurityConfig $security_config
+	 *
+	 * @return bool
+	 * @throws config\security\SecurityUqpayException
+	 */
+	public static function verifyManagerResult($res_body, $signature, SecurityConfig $security_config) {
+		if (empty($res_body) || empty($signature)) {
+			return false;
+		}
+		$verify_target = str_replace($signature, '000000', $res_body);
 		return $security_config->verify( $verify_target, $signature );
 	}
 }
