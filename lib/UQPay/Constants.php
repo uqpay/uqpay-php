@@ -173,4 +173,8 @@ class Constants {
 	const EMVCO_CREATOR_RESULT_CODE_ID = 'codeId';
 	const EMVCO_CREATOR_RESULT_PAYLOAD = 'payload';
 	const EMVCO_CREATOR_RESULT_CONTENT = 'content';
+
+	const HOST_INIT_CUSTOMER_KEY = 'customer';
+	const HOST_INIT_RESULT_TOKEN = 'token';
+	const HOST_PAY_CARD_TOKEN = "cardtoken";
 }

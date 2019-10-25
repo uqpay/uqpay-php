@@ -13,6 +13,9 @@ use uqpay\payment\model\EmvcoCreator;
 use uqpay\payment\model\EmvcoCreatorResult;
 use uqpay\payment\model\EnrollOrder;
 use uqpay\payment\model\EnrollResult;
+use uqpay\payment\model\HostPayOrder;
+use uqpay\payment\model\HostPreInit;
+use uqpay\payment\model\HostPreInitResult;
 use uqpay\payment\model\HttpClientInterface;
 use uqpay\payment\model\ManagerBaseResult;
 use uqpay\payment\model\MerchantRegister;
@@ -423,4 +426,47 @@ class Gateway {
 		$params_array = ModelHelper::assemblyOrderData( $emvco_creator );
 		return $this->directJsonPost($params_array, $this->config->getOperationApiUrl(Constants::APPGATE_API_EMVCO_CREATE), EmvcoCreatorResult::class);
 	}
+
+	/****
+	 * Host-UI Server side API
+	 ****/
+
+	/**
+	 * generate the token of Host-UI
+	 *
+	 * @param HostPreInit $pre_init
+	 *
+	 * @return HostPreInitResult|object
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function hostPreInit(HostPreInit $pre_init) {
+		if ( $this->config->member_type == Constants::MEMBER_TYPE_MER ) {
+			$pre_init->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData( $pre_init );
+		return $this->directJsonPost($params_array, $this->config->getOperationApiUrl(Constants::APPGATE_API_HOST_INIT), HostPreInitResult::class);
+	}
+
+	/**
+	 * The payment api of Host-UI
+	 * @param HostPayOrder $pay_order
+	 *
+	 * @return PaymentResult|object
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function hostPay(HostPayOrder $pay_order) {
+		$pay_order->trade_type = Constants::TRADE_TYPE_PAY;
+		$pay_order->method_id = 0;
+		if ( $this->config->member_type == Constants::MEMBER_TYPE_MER ) {
+			$pay_order->merchant_id = $this->config->uqpay_id;
+		}
+		$params_array = ModelHelper::assemblyOrderData( $pay_order );
+
+		return $this->directFormPost( $params_array, $this->config->getPaymentApiUrl( Constants::PAYGATE_API_HOST_PAY ), PaymentResult::class );
+	}
+
 }

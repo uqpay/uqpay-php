@@ -106,7 +106,7 @@ class PaymentOptions implements PaymentParameter {
 	public function getRequestArr() {
 		$result = array();
 		$errors = array();
-		if (empty($this->method_id) || 0 == $this->method_id) {
+		if (empty($this->method_id) && $this->method_id != 0) {
 			$errors[] = 'method_id';
 		} else {
 			$result[Constants::PAY_OPTIONS_METHOD_ID] = $this->method_id;

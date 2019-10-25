@@ -98,6 +98,40 @@ $result = $uqpay_gateway->pay($payment_order, $bank_card);
 var_dump($result);
 
 /**
+ * host-ui server side
+ */
+
+/**
+ * host pre-init
+ */
+
+$host_pre = new HostPreInit();
+$host_pre->customer = "1005004";
+$host_pre->date = time();
+
+$result = $uqpay_gateway->hostPreInit($host_pre);
+var_dump($result);
+
+/**
+ * host pay
+ */
+
+$host_pay = new HostPayOrder();
+
+$host_pay->card_token = '92796b16ced54e448e3c04e031a72cf4';
+
+$host_pay->order_id = time();
+$host_pay->trans_name = 'product name';
+$host_pay->amount = 1;
+$host_pay->currency = 'HKD';
+$host_pay->date = time();
+$host_pay->client_ip = '127.0.0.1';
+$host_pay->callback_url = 'https://localhost:8080/async';
+
+$result = $uqpay_gateway->hostPay($host_pay);
+var_dump($result);
+
+/**
  * emvco create
  */
 $partner_id = 1005393;
