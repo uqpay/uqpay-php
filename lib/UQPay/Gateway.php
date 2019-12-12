@@ -183,7 +183,10 @@ class Gateway {
 	private function offlineQRCodePayment( PaymentOrder &$payment_order ) {
 		$params_array = ModelHelper::assemblyOrderData( $payment_order );
 		$errors       = array();
-		if ( empty( $payment_order->identity ) ) {
+		if ( empty( $payment_order->scan_type ) ) {
+			throw new UqpayException( 'Payment parameters invalid: [scan_type] is required for offline QR Code payment, but is null' );
+		}
+		if ( empty( $payment_order->identity ) && $payment_order->scan_type == Constants::QR_CODE_SCAN_BY_MERCHANT ) {
 			$errors[] = 'identity';
 		}
 		if ( empty( $payment_order->merchant_city ) ) {
@@ -265,7 +268,6 @@ class Gateway {
 				if ( $bank_card == null ) {
 					throw new UqpayException( 'Payment parameters invalid: bank card info is required, but null' );
 				}
-
 				return $this->bankCardPayment( $payment_order, $bank_card );
 			case PayMethodHelper::SCENES_IN_APP:
 				return $this->inAppPayment( $payment_order );
