@@ -108,6 +108,7 @@ class Constants {
 	const ORDER_STATE_EXCEPTION = 'Exception';
 	const ORDER_STATE_FAILED = 'Failed';
 	const ORDER_STATE_SYNC_FAILED = 'SyncFailed';
+	const ORDER_STATE_CLOSED = 'Closed';
 
 	const RESULT_MESSAGE = 'message';
 	const RESULT_CODE = 'code';
@@ -153,6 +154,15 @@ class Constants {
 	const MERCHANT_REGISTER_CONTACT = 'contact';
 	const MERCHANT_REGISTER_MOBILE = 'mobile';
 	const MERCHANT_REGISTER_BUSINESS_EMAIL = 'email';
+
+	const MERCHANT_CONFIG_METHOD_ID = 'methodId';
+	const MERCHANT_CONFIG_FEE_TEMP_ID = 'feeTempID';
+	const MERCHANT_CONFIG_DEF_OPEN = 'defOpen';
+	const MERCHANT_CONFIG_MER_NAME = 'merchantName';
+	const MERCHANT_CONFIG_MER_ABBR = 'merchantAbbr';
+
+	const MERCHANT_CONFIG_RESULT_SUCCESS = 'isSuccess';
+	const MERCHANT_CONFIG_RESULT_METHOD_ID = 'methodId';
 
 	const MANAGER_BASE_RESULT_CODE = 'respCode';
 	const MANAGER_BASE_RESULT_MESSAGE = 'respMessage';

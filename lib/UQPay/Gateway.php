@@ -9,6 +9,8 @@ use uqpay\payment\config\security\SecurityUqpayException;
 use uqpay\payment\model\BankCard;
 use uqpay\payment\model\CancelResult;
 use uqpay\payment\model\CashierRequest;
+use uqpay\payment\model\ConfigMerPayment;
+use uqpay\payment\model\ConfigMethodResult;
 use uqpay\payment\model\EmvcoCreator;
 use uqpay\payment\model\EmvcoCreatorResult;
 use uqpay\payment\model\EnrollOrder;
@@ -411,6 +413,18 @@ class Gateway {
 		return $this->directJsonPost($params_array, $this->config->getOperationApiUrl(Constants::APPGATE_API_MERCHANT_REGISTER), ManagerBaseResult::class);
 	}
 
+	/**
+	 * @param ConfigMerPayment $config_mer_payment
+	 *
+	 * @return ConfigMethodResult | object
+	 * @throws ReflectionException
+	 * @throws SecurityUqpayException
+	 * @throws UqpayException
+	 */
+	public function methodConfig(ConfigMerPayment $config_mer_payment) {
+		$params_array = ModelHelper::assemblyOrderData($config_mer_payment);
+		return $this->directJsonPost($params_array, $this->config->getOperationApiUrl(Constants::APPGATE_API_PRODUCT_CONFIG), ConfigMethodResult::class);
+	}
 
 	/****
 	 * EMVCO Manager API

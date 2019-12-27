@@ -54,6 +54,11 @@ class OrderQuery implements PaymentParameter {
 	public function getRequestArr() {
 		$result = array();
 		$errors = array();
+		if (empty($this->merchant_id) || 0 == $this->merchant_id) {
+			$errors[] = 'merchant_id';
+		} else {
+			$result[Constants::AUTH_MERCHANT_ID] = $this->merchant_id;
+		}
 		if (empty($this->trade_type)) {
 			$errors[] = 'trade_type';
 		} else {
