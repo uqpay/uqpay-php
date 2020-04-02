@@ -162,6 +162,10 @@ $qr_result = $uqpay_gateway->createQRCode($emvco);
 var_dump($qr_result);
 
 ```
+
+## More examples
+ * [PHP Server Demo](https://github.com/uqpaytechnology/php-server-demo)
+
 ## Documentation
 
  * [Official documentation](https://developer.uqpay.com/api/#/)
