@@ -10,11 +10,13 @@ class PayMethodHelper {
 	 * @see https://developer.uqpay.com/api/#/appendix?id=_2-method-id
 	 */
 
-	const UNION_PAY_QR = 1001;
-	const ALIPAY_QR = 1002;
-	const WECHAT_QR = 1003;
+	const UNION_PAY_ONLINE_QR = 1001;
+	const ALIPAY_OFFLINE_QR = 1002;
+	const WECHAT_OFFLINE_QR = 1003;
 	const UNION_PAY_OFFLINE_QR = 1004;
-	const WECHAT_OFFLINE_QR = 1011;
+	const ALIPAY_STATIC_QR = 1009;
+	const ALIPAY_ONLINE_QR = 1010;
+	const WECHAT_ONLINE_QR = 1011;
 	const WECHAT_WEB_BASED_IN_APP = 1102;
 	const UNION_SECURE_PAY = 1100;
 	const UNION_PAY_MERCHANT_HOST = 1101;
@@ -27,10 +29,11 @@ class PayMethodHelper {
 	const AMEX = 1203;
 	const JCB = 1204;
 	const PAYPAL = 1300;
-	const ALIPAY = 1301;
+	const ALIPAY_ONLINE = 1301;
 	const ALIPAY_WAP = 1501;
 	const WECHAT_IN_APP = 2000;
 	const UNION_PAY_IN_APP = 2001;
+	const ALIPAY_IN_APP = 2002;
 	const APPLE_PAY = 3000;
 
 	/**
@@ -48,11 +51,12 @@ class PayMethodHelper {
 	const SCENES_IN_APP = 'in_app';
 
 	const SCENE_OF_METHOD = array(
-		self::UNION_PAY_QR => self::SCENES_QR,
-		self::ALIPAY_QR => self::SCENES_QR,
-		self::WECHAT_QR => self::SCENES_QR,
+		self::UNION_PAY_ONLINE_QR => self::SCENES_QR,
+		self::ALIPAY_ONLINE_QR => self::SCENES_QR,
+		self::WECHAT_ONLINE_QR => self::SCENES_QR,
 		self::UNION_PAY_OFFLINE_QR => self::SCENES_OFFLINE_QR,
 		self::WECHAT_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+		self::ALIPAY_OFFLINE_QR => self::SCENES_OFFLINE_QR,
 		self::WECHAT_WEB_BASED_IN_APP => self::SCENES_REDIRECT_PAY,
 		self::UNION_SECURE_PAY => self::SCENES_REDIRECT_PAY,
 		self::UNION_PAY_MERCHANT_HOST => self::SCENES_MERCHANT_HOST,
@@ -65,10 +69,11 @@ class PayMethodHelper {
 		self::AMEX => self::SCENES_3D_CREDIT_CARD,
 		self::JCB => self::SCENES_CREDIT_CARD,
 		self::PAYPAL => self::SCENES_REDIRECT_PAY,
-		self::ALIPAY => self::SCENES_REDIRECT_PAY,
+		self::ALIPAY_ONLINE => self::SCENES_REDIRECT_PAY,
 		self::ALIPAY_WAP => self::SCENES_REDIRECT_PAY,
 		self::WECHAT_IN_APP => self::SCENES_IN_APP,
 		self::UNION_PAY_IN_APP => self::SCENES_IN_APP,
+		self::ALIPAY_IN_APP => self::SCENES_IN_APP,
 		self::APPLE_PAY => self::SCENES_REDIRECT_PAY,
 	);
 }
