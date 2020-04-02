@@ -14,6 +14,7 @@ class PayMethodHelper {
 	const ALIPAY_QR = 1002;
 	const WECHAT_QR = 1003;
 	const UNION_PAY_OFFLINE_QR = 1004;
+	const WECHAT_OFFLINE_QR = 1011;
 	const WECHAT_WEB_BASED_IN_APP = 1102;
 	const UNION_SECURE_PAY = 1100;
 	const UNION_PAY_MERCHANT_HOST = 1101;
@@ -51,6 +52,7 @@ class PayMethodHelper {
 		self::ALIPAY_QR => self::SCENES_QR,
 		self::WECHAT_QR => self::SCENES_QR,
 		self::UNION_PAY_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+		self::WECHAT_OFFLINE_QR => self::SCENES_OFFLINE_QR,
 		self::WECHAT_WEB_BASED_IN_APP => self::SCENES_REDIRECT_PAY,
 		self::UNION_SECURE_PAY => self::SCENES_REDIRECT_PAY,
 		self::UNION_PAY_MERCHANT_HOST => self::SCENES_MERCHANT_HOST,
