@@ -146,6 +146,9 @@ class Gateway {
 	 */
 	private function redirectPayment( PaymentOrder &$payment_order ) {
 		$params_array = ModelHelper::assemblyOrderData( $payment_order );
+		if ( $this->config->member_type == Constants::MEMBER_TYPE_AGENT ) {
+			$params_array[ Constants::AUTH_AGENT_ID ] = $this->config->uqpay_id;
+		}
 		if ( empty( $payment_order->return_url ) ) {
 			throw new UqpayException( 'Payment parameters invalid: [return_url] is required for redirect payment, but is null' );
 		}
