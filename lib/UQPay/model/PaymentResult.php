@@ -28,6 +28,12 @@ class PaymentResult extends GeneralResult {
 	public $amount;
 
 	/**
+	 * @var integer
+	 * @ParamLink(value=Constants::PAY_ORDER_BILL_AMOUNT)
+	 */
+	public $bill_amount;
+
+	/**
 	 * @var string
 	 * @ParamLink(value=Constants::PAY_ORDER_CURRENCY)
 	 */
@@ -126,6 +132,9 @@ class PaymentResult extends GeneralResult {
 		}
 		if ( isset( $result_array[ Constants::PAY_ORDER_AMOUNT ] ) ) {
 			$this->amount = $result_array[ Constants::PAY_ORDER_AMOUNT ];
+		}
+		if ( isset( $result_array[ Constants::PAY_ORDER_BILL_AMOUNT ] ) ) {
+			$this->bill_amount = $result_array[ Constants::PAY_ORDER_BILL_AMOUNT ];
 		}
 		if ( isset( $result_array[ Constants::PAY_ORDER_CURRENCY ] ) ) {
 			$this->currency = $result_array[ Constants::PAY_ORDER_CURRENCY ];

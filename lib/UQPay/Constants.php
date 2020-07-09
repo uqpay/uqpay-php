@@ -65,6 +65,7 @@ class Constants {
 
 	const PAY_ORDER_ID = 'orderid';
 	const PAY_ORDER_AMOUNT = 'amount';
+	const PAY_ORDER_BILL_AMOUNT = 'billamount';
 	const PAY_ORDER_CURRENCY = 'currency';
 	const PAY_ORDER_TRANS_NAME = 'transname';
 	const PAY_ORDER_DATE = 'date';
