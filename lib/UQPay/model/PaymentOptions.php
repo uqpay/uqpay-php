@@ -123,7 +123,7 @@ class PaymentOptions implements PaymentParameter {
 		}
 		if (!empty($this->callback_url)) { $result[Constants::PAY_OPTIONS_ASYNC_NOTICE_URL] = $this->callback_url; }
 		if (!empty($this->return_url)) { $result[Constants::PAY_OPTIONS_SYNC_NOTICE_URL] = $this->return_url; }
-		if (!empty($this->scan_type)) { $result[Constants::PAY_OPTIONS_SCAN_TYPE] = $this->scan_type; }
+		if (isset($this->scan_type)) { $result[Constants::PAY_OPTIONS_SCAN_TYPE] = $this->scan_type; }
 		if (!empty($this->identity)) { $result[Constants::PAY_OPTIONS_IDENTITY] = $this->identity; }
 		if (!empty($this->merchant_city)) { $result[Constants::PAY_OPTIONS_MERCHANT_CITY] = $this->merchant_city; }
 		if (!empty($this->terminal_id)) { $result[Constants::PAY_OPTIONS_TERMINAL_ID] = $this->terminal_id; }
