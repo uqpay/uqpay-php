@@ -52,7 +52,7 @@ class PaymentOptions implements PaymentParameter {
 	 * @var int
 	 * @ParamLink(value=Constants::PAY_OPTIONS_SCAN_TYPE)
 	 */
-	public $scan_type = Constants::QR_CODE_SCAN_BY_MERCHANT;
+	public $scan_type;
 
 	/*******
 	 * only required for qr code payment when scan type is Merchant or the pay method is offline qr code
