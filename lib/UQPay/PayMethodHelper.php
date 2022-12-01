@@ -14,14 +14,19 @@ class PayMethodHelper {
 	const ALIPAY_OFFLINE_QR = 1002;
 	const WECHAT_OFFLINE_QR = 1003;
 	const UNION_PAY_OFFLINE_QR = 1004;
+    const PAYNOW_OFFLINE_QR= 1012;
 	const ALIPAY_STATIC_QR = 1009;
 	const ALIPAY_ONLINE_QR = 1010;
 	const WECHAT_ONLINE_QR = 1011;
+    Const PAYNOW_ONLINE_QR = 1013;
+    const GRAB_OFFLINE_QR = 1005;
+    const GRAB_ONLINE_QR = 1006;
 	const WECHAT_WEB_BASED_IN_APP = 1102;
 	const UNION_SECURE_PAY = 1100;
 	const UNION_PAY_MERCHANT_HOST = 1101;
 	const UNION_PAY_SERVER_HOST = 1103;
 	const UNION_PAY_EXPRESS_PAY = 1202;
+    const WECHAT_H5 = 1502;
 	const VISA = 1200;
 	const VISA_3D = 2500;
 	const MASTER = 1201;
@@ -35,6 +40,7 @@ class PayMethodHelper {
 	const UNION_PAY_IN_APP = 2001;
 	const ALIPAY_IN_APP = 2002;
 	const APPLE_PAY = 3000;
+
 
 	/**
 	 * Scene used by payment method
@@ -75,5 +81,10 @@ class PayMethodHelper {
 		self::UNION_PAY_IN_APP => self::SCENES_IN_APP,
 		self::ALIPAY_IN_APP => self::SCENES_IN_APP,
 		self::APPLE_PAY => self::SCENES_REDIRECT_PAY,
+        self::PAYNOW_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+        self::GRAB_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+        self::GRAB_ONLINE_QR => self::SCENES_QR,
+        self::PAYNOW_ONLINE_QR => self::SCENES_QR,
+        self::WECHAT_H5  => self::SCENES_REDIRECT_PAY,
 	);
 }
