@@ -15,7 +15,6 @@ class PayMethodHelper {
 	const WECHAT_OFFLINE_QR = 1003;
 	const UNION_PAY_OFFLINE_QR = 1004;
     const PAYNOW_OFFLINE_QR= 1012;
-	const ALIPAY_STATIC_QR = 1009;
 	const ALIPAY_ONLINE_QR = 1010;
 	const WECHAT_ONLINE_QR = 1011;
     Const PAYNOW_ONLINE_QR = 1013;
@@ -40,6 +39,16 @@ class PayMethodHelper {
 	const UNION_PAY_IN_APP = 2001;
 	const ALIPAY_IN_APP = 2002;
 	const APPLE_PAY = 3000;
+	const GCash_ONLINE = 1107;
+    const TrueMoney_ONLINE = 1110;
+    const KAKAOPAY_ONLINE = 1108;
+    const TNG_ONLINE = 1109;
+    const USDT_ONLINE = 5006;
+    const USDT_OFFLINE = 5007;
+    const USDC_ONLINE = 5008;
+    const USDC_OFFLINE = 5009;
+    const TrueMoney_OFFLINE_QR = 1028;
+    const UNION_B2B = 10001;
 
 
 	/**
@@ -86,5 +95,15 @@ class PayMethodHelper {
         self::GRAB_ONLINE_QR => self::SCENES_QR,
         self::PAYNOW_ONLINE_QR => self::SCENES_QR,
         self::WECHAT_H5  => self::SCENES_REDIRECT_PAY,
+        self::GCash_ONLINE => self::SCENES_QR,
+        self::TrueMoney_ONLINE => self::SCENES_QR,
+        self::KAKAOPAY_ONLINE => self::SCENES_QR,
+        self::TNG_ONLINE => self::SCENES_QR,
+        self::USDT_ONLINE => self::SCENES_QR,
+        self::USDC_OFFLINE => self::SCENES_OFFLINE_QR,
+        self::USDT_OFFLINE => self::SCENES_OFFLINE_QR,
+        self::USDC_ONLINE => self::SCENES_QR,
+        self::TrueMoney_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+        self::UNION_B2B => self::SCENES_REDIRECT_PAY,
 	);
 }

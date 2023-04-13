@@ -263,9 +263,10 @@ class Gateway {
 			throw new UqpayException( 'UnSupport Payment method: ' . $payment_order->method_id );
 		}
 		switch ( $scene ) {
-			case PayMethodHelper::SCENES_REDIRECT_PAY:
+            case PayMethodHelper::SCENES_3D_CREDIT_CARD:
+            case PayMethodHelper::SCENES_REDIRECT_PAY:
 				return $this->redirectPayment( $payment_order );
-			case PayMethodHelper::SCENES_QR:
+            case PayMethodHelper::SCENES_QR:
 				return $this->onlineQRCodePayment( $payment_order );
 			case PayMethodHelper::SCENES_OFFLINE_QR:
 				return $this->offlineQRCodePayment( $payment_order );
