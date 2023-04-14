@@ -98,7 +98,7 @@ class PayMethodHelper {
         self::GCash_ONLINE => self::SCENES_QR,
         self::TrueMoney_ONLINE => self::SCENES_QR,
         self::KAKAOPAY_ONLINE => self::SCENES_QR,
-        self::TNG_ONLINE => self::SCENES_QR,
+        self::TNG_ONLINE => self::SCENES_REDIRECT_PAY,
         self::USDT_ONLINE => self::SCENES_QR,
         self::USDC_OFFLINE => self::SCENES_OFFLINE_QR,
         self::USDT_OFFLINE => self::SCENES_OFFLINE_QR,
