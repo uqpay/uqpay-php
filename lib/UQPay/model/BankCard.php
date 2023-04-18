@@ -34,6 +34,18 @@ class BankCard implements PaymentParameter {
 	 */
 	public $card_num;
 
+    /**
+     * @var string
+     * @ParamLink(value=Constants::BANK_CARD_ADDRESS_COUNTRY)
+     */
+    public $address_country;
+
+    /**
+     * @var string
+     * @ParamLink(value=Constants::BANK_CARD_EMAIL)
+     */
+    public $email;
+
 	/**
 	 * @var string
 	 * @ParamLink(value=Constants::BANK_CARD_EXPIRE_MONTH)
@@ -71,6 +83,8 @@ class BankCard implements PaymentParameter {
 		if (!empty($this->cvv)) { $result[Constants::BANK_CARD_CVV] = $this->cvv; }
 		if (!empty($this->expire_month)) { $result[Constants::BANK_CARD_EXPIRE_MONTH] = $this->expire_month; }
 		if (!empty($this->expire_year)) { $result[Constants::BANK_CARD_EXPIRE_YEAR] = $this->expire_year; }
+        if (!empty($this->address_country)) { $result[Constants::BANK_CARD_ADDRESS_COUNTRY] = $this->address_country; }
+        if (!empty($this->email)) { $result[Constants::BANK_CARD_EMAIL] = $this->email; }
 
 		if (sizeof($errors) > 0) {
 			throw new UqpayException('Payment parameters invalid: ['.implode(',', $errors).'] is required for bank card, but null');
