@@ -19,7 +19,8 @@ class ModelHelper {
 	public static function assemblyOrderData( PaymentParameter ...$parameters ) {
 		$result = array();
 		foreach ($parameters as $parameter) {
-			$result = array_merge($result, $parameter->getRequestArr());
+		    if($parameter != null)
+			    $result = array_merge($result, $parameter->getRequestArr());
 		}
 		return $result;
 	}

@@ -144,8 +144,8 @@ class Gateway {
 	 * @throws SecurityUqpayException
 	 * @throws UqpayException
 	 */
-	private function redirectPayment( PaymentOrder &$payment_order ) {
-		$params_array = ModelHelper::assemblyOrderData( $payment_order );
+	private function redirectPayment( PaymentOrder &$payment_order, BankCard $bank_card = null ) {
+		$params_array = ModelHelper::assemblyOrderData( $payment_order, $bank_card );
 		if ( $this->config->member_type == Constants::MEMBER_TYPE_AGENT ) {
 			$params_array[ Constants::AUTH_AGENT_ID ] = $this->config->uqpay_id;
 		}
@@ -263,7 +263,6 @@ class Gateway {
 			throw new UqpayException( 'UnSupport Payment method: ' . $payment_order->method_id );
 		}
 		switch ( $scene ) {
-            case PayMethodHelper::SCENES_3D_CREDIT_CARD:
             case PayMethodHelper::SCENES_REDIRECT_PAY:
 				return $this->redirectPayment( $payment_order );
             case PayMethodHelper::SCENES_QR:
@@ -275,6 +274,11 @@ class Gateway {
 					throw new UqpayException( 'Payment parameters invalid: bank card info is required, but null' );
 				}
 				return $this->bankCardPayment( $payment_order, $bank_card );
+            case PayMethodHelper::SCENES_3D_CREDIT_CARD:
+                if ( $bank_card == null ) {
+                    throw new UqpayException( 'Payment parameters invalid: bank card info is required, but null' );
+                }
+                return $this->redirectPayment( $payment_order, $bank_card );
 			case PayMethodHelper::SCENES_IN_APP:
 				return $this->inAppPayment( $payment_order );
 		}
