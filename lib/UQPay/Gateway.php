@@ -145,7 +145,10 @@ class Gateway {
 	 * @throws UqpayException
 	 */
 	private function redirectPayment( PaymentOrder &$payment_order, BankCard $bank_card = null ) {
-		$params_array = ModelHelper::assemblyOrderData( $payment_order, $bank_card );
+        if (empty($bank_card))
+		    $params_array = ModelHelper::assemblyOrderData( $payment_order );
+        else
+            $params_array = ModelHelper::assemblyOrderData( $payment_order, $bank_card );
 		if ( $this->config->member_type == Constants::MEMBER_TYPE_AGENT ) {
 			$params_array[ Constants::AUTH_AGENT_ID ] = $this->config->uqpay_id;
 		}
