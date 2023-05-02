@@ -58,6 +58,33 @@ class BankCard implements PaymentParameter {
 	 */
 	public $expire_year;
 
+
+    /**
+     * @var string
+     * @ParamLink(apiKey = Constant::BANK_CARD_ADDRESS_STATE)
+     */
+    public $address_state;
+    /**
+     * @var string
+     * @ParamLink(apiKey = Constant::BANK_CARD_ADDRESS_CITY)
+     */
+    public $address_city;
+    /**
+     * @var string
+     * @ParamLink(apiKey = Constant::BANK_CARD_ADDRESS)
+     */
+    public $address;
+    /**
+     * @var string
+     * @ParamLink(apiKey = Constant::BANK_CARD_PHONE)
+     */
+    public $phone;
+    /**
+     * @var string
+     * @ParamLink(apiKey = Constant::BANK_CARD_ZIP)
+     */
+    public $zip;
+
 	/**
 	 * @return array
 	 * @throws UqpayException
@@ -85,6 +112,11 @@ class BankCard implements PaymentParameter {
 		if (!empty($this->expire_year)) { $result[Constants::BANK_CARD_EXPIRE_YEAR] = $this->expire_year; }
         if (!empty($this->address_country)) { $result[Constants::BANK_CARD_ADDRESS_COUNTRY] = $this->address_country; }
         if (!empty($this->email)) { $result[Constants::BANK_CARD_EMAIL] = $this->email; }
+        if (!empty($this->zip)) { $result[Constants::BANK_CARD_ZIP] = $this->zip; }
+        if (!empty($this->address)) { $result[Constants::BANK_CARD_ADDRESS] = $this->address; }
+        if (!empty($this->phone)) { $result[Constants::BANK_CARD_PHONE] = $this->phone; }
+        if (!empty($this->address_city)) { $result[Constants::BANK_CARD_ADDRESS_CITY] = $this->address_city; }
+        if (!empty($this->address_state)) { $result[Constants::BANK_CARD_ADDRESS_STATE] = $this->address_state; }
 
 		if (sizeof($errors) > 0) {
 			throw new UqpayException('Payment parameters invalid: ['.implode(',', $errors).'] is required for bank card, but null');

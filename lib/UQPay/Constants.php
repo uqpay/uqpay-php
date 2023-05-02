@@ -136,6 +136,10 @@ class Constants {
 	const BANK_CARD_ADDRESS_COUNTRY = 'addresscountry';
 	const BANK_CARD_PHONE = 'phone';
 	const BANK_CARD_EMAIL = 'email';
+    const BANK_CARD_ADDRESS_STATE = 'addressstate';
+    const BANK_CARD_ADDRESS_CITY = 'addresscity';
+    const BANK_CARD_ADDRESS = 'address';
+    const BANK_CARD_ZIP = 'zip';
 	const BANK_CARD_THREE_D_UQORDERID = 'uqorderid';
 	const BANK_CARD_THREE_D_PARES = 'paresponse';
 
@@ -184,6 +188,7 @@ class Constants {
 	const EMVCO_CREATOR_RESULT_CODE_ID = 'codeId';
 	const EMVCO_CREATOR_RESULT_PAYLOAD = 'payload';
 	const EMVCO_CREATOR_RESULT_CONTENT = 'content';
+
 
 	const HOST_INIT_CUSTOMER_KEY = 'customer';
 	const HOST_INIT_RESULT_TOKEN = 'token';
