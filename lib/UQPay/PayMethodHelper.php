@@ -49,6 +49,9 @@ class PayMethodHelper {
     const USDC_OFFLINE = 5009;
     const TrueMoney_OFFLINE_QR = 1028;
     const UNION_B2B = 10001;
+    const ALIPAY_HK_OFFLINE_QR = 1026;
+    const DASH_OFFLINE_QR = 1016;
+    const DASH_ONLINE_QR = 1017;
 
 
 	/**
@@ -105,5 +108,8 @@ class PayMethodHelper {
         self::USDC_ONLINE => self::SCENES_QR,
         self::TrueMoney_OFFLINE_QR => self::SCENES_OFFLINE_QR,
         self::UNION_B2B => self::SCENES_REDIRECT_PAY,
+        self::ALIPAY_HK_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+        self::DASH_OFFLINE_QR => self::SCENES_OFFLINE_QR,
+        self::DASH_ONLINE_QR => self::SCENES_QR,
 	);
 }
