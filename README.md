@@ -131,35 +131,6 @@ $host_pay->callback_url = 'https://localhost:8080/async';
 $result = $uqpay_gateway->hostPay($host_pay);
 var_dump($result);
 
-/**
- * emvco create
- */
-$partner_id = 1005393;
-$merchant_of_this_partner = 1005412;
-$partner_prv_key = 'Your_partner_prv_key_Content';
-$partner_uqpay_pub_key = 'The_UQPAY_Public_Key_Your_Downloaded_Content';
-$uqpay_partner_config = ConfigOfAPI::builder(
-	$partner_prv_key,
-	Constants::SIGN_TYPE_RSA,
-	$partner_uqpay_pub_key,
-	$partner_id,
-	$test_mode,
-	false // set false means your are a partner
-);
-
-$uqpay_gateway = new Gateway($uqpay_partner_config);
-$uqpay_gateway->setHttpClient(new HttpClient());
-$emvco = new EmvcoCreator();
-$emvco->type = Constants::QR_CHANNEL_TYPE_UNION;
-$emvco->name = 'PHP TEST';
-$emvco->code_type = Constants::QR_TYPE_STATIC;
-$emvco->terminal_id = '10001A';
-$emvco->city = 'Singapore';
-$emvco->date = time();
-$emvco->merchant_id = $merchant_of_this_partner;
-
-$qr_result = $uqpay_gateway->createQRCode($emvco);
-var_dump($qr_result);
 
 ```
 
